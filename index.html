@@ -6,223 +6,107 @@
 <title>Rincian Tugas Guru | SMAN 2 Sendawar</title>
 
 <style>
-:root{
-  --primary:#1e3c72;
-  --bg:#f4f6fb;
-  --card:#ffffff;
-  --text:#1f2937;
-}
-*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:"Poppins",Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
+  font-family:Poppins,Arial,sans-serif;
+  background:#f4f6fb;
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:16px;
+  min-height:100vh;
 }
-
-/* CARD WEB */
 .card{
-  background:var(--card);
+  background:#fff;
   width:100%;
   max-width:600px;
   padding:22px;
-  border-radius:22px;
+  border-radius:20px;
   box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
+h2{text-align:center;color:#1e3c72;margin:0}
+.sub{text-align:center;font-size:14px;color:#555}
 
-/* HEADER WEB */
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-.header img{
-  height:56px;
-  object-fit:contain;
-}
-.header-center{
-  text-align:center;
-  flex:1;
-}
-.header-center h2{
-  margin:0;
-  color:var(--primary);
-}
-.header-center p{
-  margin:4px 0 0;
-  font-size:14px;
-}
-
-/* FORM */
 input,button{
   width:100%;
   padding:12px;
   font-size:15px;
-  border-radius:12px;
-}
-input{border:1px solid #cbd5e1}
-button{
+  border-radius:10px;
   margin-top:10px;
+}
+input{border:1px solid #ccc}
+button{
   border:none;
-  background:var(--primary);
+  background:#1e3c72;
   color:white;
   font-weight:600;
   cursor:pointer;
 }
 
-/* HASIL */
-.result{display:none;margin-top:18px}
-
-/* ERROR */
-.error{
+.section{margin-top:14px;font-weight:600;color:#1e3c72}
+ul{margin:6px 0 0 18px}
+.total{
+  background:#eef3ff;
+  padding:12px;
+  border-radius:10px;
+  margin-top:14px;
   text-align:center;
-  color:#dc2626;
-  margin-top:10px;
+  font-weight:600;
 }
-
-/* =====================
-   MODE CETAK (LAMPIRAN SK)
-   ===================== */
-@media print{
-  body{background:white}
-  .header,input,button{display:none}
-  .card{
-    box-shadow:none;
-    padding:0;
-  }
-
-  .kop{
-    display:block !important;
-    margin-bottom:10px;
-  }
-  .kop img{
-    width:100%;
-    max-height:140px;
-    object-fit:contain;
-  }
-
-  table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:12pt;
-  }
-  th,td{
-    border:1px solid #000;
-    padding:6px;
-  }
-  .nb td{border:none}
+.message{
+  background:#f9f9f9;
+  border-left:4px solid #1e3c72;
+  padding:14px;
+  margin-top:16px;
+  border-radius:10px;
+  font-size:14px;
 }
-.kop{display:none}
+.signature{text-align:right;margin-top:8px;font-weight:600}
+.error{text-align:center;color:red;margin-top:10px}
 </style>
 </head>
 
 <body>
 
 <div class="card">
+  <h2>Rincian Tugas Guru</h2>
+  <div class="sub">Semester Genap TP 2025/2026</div>
 
-  <!-- HEADER WEB -->
-  <div class="header">
-    <img src="logo-provinsi.png">
-    <div class="header-center">
-      <h2>SMA Negeri 2 Sendawar</h2>
-      <p>Rincian Tugas Guru – Semester Genap TP 2025/2026</p>
-    </div>
-    <img src="logo-sman2.png">
-  </div>
-
-  <!-- KOP CETAK -->
-  <div class="kop">
-    <img src="KOP SEKOLAH.png">
-  </div>
-
-  <!-- INPUT -->
   <input id="username" placeholder="Masukkan USERNAME (NIP tanpa spasi)">
-  <button onclick="cariGuru()">Lihat Rincian Tugas</button>
+  <button onclick="cariGuru()">Lihat Rincian</button>
 
   <div id="error" class="error"></div>
 
-  <!-- HASIL -->
-  <div id="hasil" class="result">
+  <!-- ======================
+       TAMPILAN BIASA (LAYAR)
+       ====================== -->
+  <div id="view" style="display:none">
 
-    <!-- JUDUL LAMPIRAN SK -->
-    <h3 style="text-align:center;margin:6px 0">
-      LAMPIRAN SURAT KEPUTUSAN<br>
-      KEPALA SMA NEGERI 2 SENDAWAR
-    </h3>
+    <p><b>Nama Guru</b><br><span id="nama"></span></p>
+    <p><b>NIP</b><br><span id="nip"></span></p>
 
-    <!-- NOMOR SK -->
-    <table class="nb">
-      <tr>
-        <td width="25%">Nomor</td>
-        <td>: <b>400.3.8/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/SMAN 2 SDWR/2025</b></td>
-      </tr>
-      <tr>
-        <td>Tentang</td>
-        <td>: Pembagian Tugas Guru Semester Genap Tahun Pelajaran 2025/2026</td>
-      </tr>
-    </table>
+    <div class="section">Tugas Mengajar</div>
+    <ul id="mengajar"></ul>
 
-    <br>
+    <div class="section">Tugas Tambahan</div>
+    <ul id="tambahan"></ul>
 
-    <!-- IDENTITAS GURU -->
-    <table class="nb">
-      <tr><td width="25%">Nama Guru</td><td>: <span id="nama"></span></td></tr>
-      <tr><td>NIP</td><td>: <span id="nip"></span></td></tr>
-    </table>
+    <div id="totalJP" class="total"></div>
 
-    <p><b>A. Tugas Mengajar</b></p>
-    <table>
-      <tr>
-        <th>No</th>
-        <th>Mata Pelajaran</th>
-        <th>Kelas</th>
-        <th>JP</th>
-      </tr>
-      <tbody id="tblMengajar"></tbody>
-    </table>
+    <div class="message">
+      Terima kasih atas dedikasi dan pelaksanaan tugas Bapak/Ibu Guru
+      pada semester sebelumnya. Semoga amanah pada semester genap ini
+      dapat dilaksanakan dengan penuh tanggung jawab dan semangat.
+      <div class="signature">
+        — Tim Pengembang Kurikulum<br>SMAN 2 Sendawar
+      </div>
+    </div>
 
-    <p><b>B. Tugas Tambahan</b></p>
-    <table>
-      <tr>
-        <th>No</th>
-        <th>Uraian Tugas</th>
-        <th>JP</th>
-      </tr>
-      <tbody id="tblTambahan"></tbody>
-      <tr>
-        <th colspan="2">Total Beban Kerja</th>
-        <th id="totalJP"></th>
-      </tr>
-    </table>
-
-    <br><br>
-
-    <!-- TTD KEPALA SEKOLAH -->
-    <table class="nb" style="width:100%">
-      <tr>
-        <td width="60%"></td>
-        <td>
-          Sendawar, 05 Januari 2026<br>
-          Kepala Sekolah<br><br><br><br>
-          <b>Fardinandus Erikson, S.Fil</b><br>
-          Penata Tk. I<br>
-          NIP. 19691010 200801 1 026
-        </td>
-      </tr>
-    </table>
-
+    <button onclick="cetakSK()">Cetak Lampiran SK</button>
   </div>
 </div>
 
 <script>
-const dataGuru = [
-{
+const dataGuru=[{
   id:"199411222024211014",
   nip:"19941122 202421 1 014",
   nama:"Adiyanto, S.Pd., Gr.",
@@ -236,51 +120,120 @@ const dataGuru = [
     {uraian:"Pembina OSIS", jp:2},
     {uraian:"Guru Wali", jp:2}
   ]
-}
-];
+}];
+
+let aktif=null;
 
 function cariGuru(){
   const u=username.value.trim();
   const g=dataGuru.find(x=>x.id===u);
-
   error.innerText="";
-  hasil.style.display="none";
+  view.style.display="none";
 
   if(!g){
     error.innerText="Data guru tidak ditemukan.";
     return;
   }
 
+  aktif=g;
   nama.innerText=g.nama;
   nip.innerText=g.nip;
-
-  tblMengajar.innerHTML="";
-  tblTambahan.innerHTML="";
+  mengajar.innerHTML="";
+  tambahan.innerHTML="";
   let total=0;
 
-  g.mengajar.forEach((x,i)=>{
+  g.mengajar.forEach(x=>{
     total+=x.jp;
-    tblMengajar.innerHTML+=`
-      <tr>
-        <td>${i+1}</td>
-        <td>${x.mapel}</td>
-        <td>${x.kelas}</td>
-        <td>${x.jp}</td>
-      </tr>`;
+    mengajar.innerHTML+=`<li>${x.mapel} – ${x.kelas} (${x.jp} JP)</li>`;
+  });
+  g.tambahan.forEach(x=>{
+    total+=x.jp;
+    tambahan.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
   });
 
-  g.tambahan.forEach((x,i)=>{
-    total+=x.jp;
-    tblTambahan.innerHTML+=`
-      <tr>
-        <td>${i+1}</td>
-        <td>${x.uraian}</td>
-        <td>${x.jp}</td>
-      </tr>`;
-  });
+  totalJP.innerText="Total Beban Kerja: "+total+" JP";
+  view.style.display="block";
+}
 
-  totalJP.innerText=total;
-  hasil.style.display="block";
+/* ======================
+   CETAK LAMPIRAN SK
+   ====================== */
+function cetakSK(){
+  const g=aktif;
+  let total=0;
+  g.mengajar.forEach(x=>total+=x.jp);
+  g.tambahan.forEach(x=>total+=x.jp);
+
+  let html=`
+  <html>
+  <head>
+    <style>
+      body{font-family:"Times New Roman";font-size:12pt}
+      table{width:100%;border-collapse:collapse}
+      th,td{border:1px solid #000;padding:6px}
+      .nb td{border:none}
+    </style>
+  </head>
+  <body>
+
+  <img src="KOP SEKOLAH.png" style="width:100%"><br><br>
+
+  <h3 style="text-align:center">
+    LAMPIRAN SURAT KEPUTUSAN<br>
+    KEPALA SMA NEGERI 2 SENDAWAR
+  </h3>
+
+  <table class="nb">
+    <tr><td width="25%">Nomor</td><td>: 400.3.8/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/SMAN 2 SDWR/2025</td></tr>
+    <tr><td>Tentang</td><td>: Pembagian Tugas Guru Semester Genap TP 2025/2026</td></tr>
+  </table>
+
+  <br>
+
+  <table class="nb">
+    <tr><td width="25%">Nama Guru</td><td>: ${g.nama}</td></tr>
+    <tr><td>NIP</td><td>: ${g.nip}</td></tr>
+  </table>
+
+  <p><b>A. Tugas Mengajar</b></p>
+  <table>
+    <tr><th>No</th><th>Mata Pelajaran</th><th>Kelas</th><th>JP</th></tr>
+    ${g.mengajar.map((x,i)=>`
+      <tr><td>${i+1}</td><td>${x.mapel}</td><td>${x.kelas}</td><td>${x.jp}</td></tr>
+    `).join("")}
+  </table>
+
+  <p><b>B. Tugas Tambahan</b></p>
+  <table>
+    <tr><th>No</th><th>Uraian</th><th>JP</th></tr>
+    ${g.tambahan.map((x,i)=>`
+      <tr><td>${i+1}</td><td>${x.uraian}</td><td>${x.jp}</td></tr>
+    `).join("")}
+    <tr><th colspan="2">Total Beban Kerja</th><th>${total}</th></tr>
+  </table>
+
+  <br><br>
+
+  <table class="nb">
+    <tr>
+      <td width="60%"></td>
+      <td>
+        Sendawar, 05 Januari 2026<br>
+        Kepala Sekolah<br><br><br><br>
+        <b>Fardinandus Erikson, S.Fil</b><br>
+        Penata Tk. I<br>
+        NIP. 19691010 200801 1 026
+      </td>
+    </tr>
+  </table>
+
+  </body></html>
+  `;
+
+  const w=window.open("");
+  w.document.write(html);
+  w.document.close();
+  w.print();
 }
 </script>
 
