@@ -3,359 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rincian Tugas Guru</title>
+<title>Pembagian Tugas Guru | SMAN 2 Sendawar</title>
 
 <style>
-  /* === ANIMASI LOGO === */
-
-/* animasi masuk */
-@keyframes logoIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 15px;
 }
-
-/* animasi melayang halus */
-@keyframes floatLogo {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-6px); }
-  100% { transform: translateY(0); }
+.container {
+  max-width: 420px;
+  margin: auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-
-/* terapkan ke logo */
-.header img {
-  height: 56px;
-  max-width: 70px;
-  object-fit: contain;
-  display: block;
-
-  /* animasi */
-  animation:
-    logoIn 0.8s ease-out forwards,
-    floatLogo 4s ease-in-out infinite;
-
-  transition: transform 0.3s ease;
+.kop {
+  text-align: center;
+  margin-bottom: 15px;
 }
-
-/* jeda beda antara kiri & kanan */
-.header img:first-child {
-  animation-delay: 0.2s, 1s;
+.kop img {
+  max-width: 100%;
 }
-
-.header img:last-child {
-  animation-delay: 0.4s, 1.5s;
+.logo-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
-
-/* efek sentuh / hover */
-.header img:hover {
-  transform: scale(1.1) rotate(-2deg);
+.logo-row img {
+  height: 55px;
 }
-@keyframes titleFade {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+h2 {
+  text-align: center;
+  color: #0a4d2c;
+  margin-top: 10px;
 }
-
-.header-center h2 {
-  animation: titleFade 0.8s ease-out forwards;
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
-
-.header-center p {
-  animation: titleFade 1s ease-out forwards;
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: #0a4d2c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
 }
-
-:root{
-  --primary:#1e3c72;
-  --bg:#f4f6fb;
-  --card:#ffffff;
-  --text:#222;
+button:hover {
+  background: #08703e;
 }
-body.dark{
-  --primary:#90b4ff;
-  --bg:#0f172a;
-  --card:#111827;
-  --text:#e5e7eb;
+.card {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 8px;
 }
-
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:"Poppins",Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:16px;
-  transition:.3s;
+.label {
+  font-weight: bold;
 }
-
-.card{
-  background:var(--card);
-  width:100%;
-  max-width:560px;
-  padding:22px;
-  border-radius:20px;
-  box-shadow:0 18px 35px rgba(0,0,0,.25);
+.footer {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #444;
 }
-
-/* HEADER DUA LOGO */
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:12px;
+.print {
+  margin-top: 15px;
+  background: #555;
 }
-.header img{
-  height:56px;
-  object-fit:contain;
-}
-.header-center{
-  text-align:center;
-  flex:1;
-}
-.header-center h2{
-  margin:0;
-  color:var(--primary);
-}
-.header-center p{
-  margin:4px 0 0;
-  font-size:14px;
-}
-
-/* TOGGLE MODE */
-.toggle{
-  text-align:right;
-  font-size:13px;
-  cursor:pointer;
-  color:var(--primary);
-  margin-bottom:6px;
-}
-
-/* FORM */
-input,button{
-  width:100%;
-  padding:12px;
-  font-size:15px;
-  border-radius:10px;
-}
-input{
-  border:1px solid #ccc;
-}
-button{
-  margin-top:10px;
-  border:none;
-  background:var(--primary);
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-}
-
-/* HASIL */
-.result{
-  display:none;
-  margin-top:18px;
-  animation:fadeUp .4s ease;
-}
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:none}
-}
-
-.section{
-  margin-top:14px;
-  font-weight:600;
-  color:var(--primary);
-}
-ul{margin:6px 0 0 18px}
-
-.total{
-  background:rgba(30,60,114,.1);
-  padding:12px;
-  border-radius:10px;
-  margin-top:14px;
-  font-weight:600;
-  text-align:center;
-}
-
-/* PESAN */
-.message{
-  background:rgba(30,60,114,.05);
-  border-left:4px solid var(--primary);
-  padding:14px;
-  margin-top:16px;
-  border-radius:10px;
-  font-size:14px;
-  line-height:1.6;
-}
-.signature{
-  margin-top:10px;
-  font-weight:600;
-  text-align:right;
-}
-
-/* QR */
-.qr{
-  text-align:center;
-  margin-top:16px;
-}
-.qr img{width:120px}
-
-/* ERROR */
-.error{
-  text-align:center;
-  color:red;
-  margin-top:10px;
-}
-
-/* CETAK */
-@media print{
-  body{background:white}
-  .toggle,button,input{display:none}
-  .card{
-    box-shadow:none;
-    position:relative;
-  }
-  .card::after{
-    content:"SMAN 2 SENDAWAR";
-    position:absolute;
-    top:40%;
-    left:50%;
-    transform:translate(-50%,-50%) rotate(-30deg);
-    font-size:60px;
-    color:rgba(0,0,0,.08);
-    white-space:nowrap;
-  }
+@media print {
+  button, input { display: none; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
 
-  <!-- HEADER DENGAN LOGO -->
-  <div class="header">
-    <img src="logo-provinsi.png.png" alt="Logo Provinsi">
-    <div class="header-center">
-      <h2>SMA Negeri 2 Sendawar</h2>
-      <p>Rincian Tugas Guru<br>Semester Genap Tahun Pelajaran 2025/2026</p>
-    </div>
-    <img src="logo-sman2.png.jpg" alt="Logo SMA Negeri 2 Sendawar">
+  <!-- LOGO -->
+  <div class="logo-row">
+    <img src="logo-sm​an2.png.jpg" alt="Logo SMAN 2 Sendawar">
+    <img src="logo-provinsi.png.png" alt="Logo Provinsi Kaltim">
   </div>
 
-  <div class="toggle" onclick="toggleMode()">🌙 / ☀️ Mode</div>
-
-  <input id="username" placeholder="Masukkan USERNAME (NIP tanpa spasi)">
-  <button onclick="cariGuru()">Lihat Rincian Tugas</button>
-
-  <div id="error" class="error"></div>
-
-  <div id="hasil" class="result">
-    <p><b>Nama Guru</b><br><span id="nama"></span></p>
-    <p><b>NIP</b><br><span id="nip"></span></p>
-
-    <div class="section">Tugas Mengajar</div>
-    <ul id="mengajar"></ul>
-
-    <div class="section">Tugas Tambahan</div>
-    <ul id="tambahan"></ul>
-
-    <div id="totalJP" class="total"></div>
-
-    <div class="message">
-      Terima kasih atas dedikasi dan kerja keras Bapak/Ibu Guru
-      pada semester sebelumnya.  
-      Semoga amanah pada semester genap ini
-      membawa keberkahan dan pembelajaran yang bermakna.
-      <div class="signature">
-        — Tim Pengembang Kurikulum<br>SMAN 2 Sendawar
-      </div>
-    </div>
-
-    <div class="qr">
-      <p><b>QR Akses Halaman</b></p>
-      <img id="qr">
-    </div>
-
-    <button onclick="cetakRincian()">Cetak Rincian Individu</button>
+  <!-- KOP -->
+  <div class="kop">
+    <img src="KOP SEKOLAH.png" alt="Kop Sekolah">
   </div>
+
+  <h2>Cek Pembagian Tugas Guru</h2>
+
+  <input type="text" id="username" placeholder="Masukkan USERNAME">
+  <button onclick="cekData()">Cek Data</button>
+
+  <div id="hasil"></div>
 </div>
 
 <script>
-const dataGuru=[
-{
-  username:"199411222024211014",
-  nip:"19941122 202421 1 014",
-  nama:"Adiyanto, S.Pd., Gr.",
-  mengajar:[
-    {uraian:"PKWU – XII C, D, G, H",jp:8},
-    {uraian:"Kimia – XI A",jp:5}
-  ],
-  tambahan:[
-    {uraian:"Kepala Perpustakaan",jp:12},
-    {uraian:"Wali Kelas XII D",jp:2},
-    {uraian:"Pembina OSIS",jp:2},
-    {uraian:"Guru Wali",jp:2}
-  ]
-}
-];
+const dataGuru = {
+  "199411222024211014": {
+    nama: "Adiyanto, S.Pd., Gr.",
+    status: "PPPK",
+    jabatan: "Guru Ahli Pertama",
+    tugasMengajar: "Mata Pelajaran sesuai pembagian sekolah",
+    tugasTambahan: "—"
+  },
+  "196908272002121004": {
+    nama: "Agustinus Bhakti Parrangan, S.Pd., M.Pd",
+    status: "PNS",
+    jabatan: "Guru Ahli Muda",
+    tugasMengajar: "Mata Pelajaran sesuai pembagian sekolah",
+    tugasTambahan: "—"
+  },
+  "199406062020122026": {
+    nama: "Al Misbah Hajihi, S.Pd., Gr.",
+    status: "PNS",
+    jabatan: "Guru Ahli Pertama",
+    tugasMengajar: "Mata Pelajaran sesuai pembagian sekolah",
+    tugasTambahan: "—"
+  }
+};
 
-let aktif=null;
+function cekData() {
+  const u = document.getElementById("username").value.trim();
+  const hasil = document.getElementById("hasil");
 
-function cariGuru(){
-  const u=username.value.trim();
-  const g=dataGuru.find(x=>x.username===u);
-  error.innerText="";
-  hasil.style.display="none";
-
-  if(!g){
-    error.innerText="Data guru tidak ditemukan.";
+  if (!dataGuru[u]) {
+    hasil.innerHTML = "<p style='color:red'>USERNAME tidak ditemukan.</p>";
     return;
   }
 
-  aktif=g;
-  nama.innerText=g.nama;
-  nip.innerText=g.nip;
-
-  mengajar.innerHTML="";
-  tambahan.innerHTML="";
-  let total=0;
-
-  g.mengajar.forEach(x=>{
-    total+=x.jp;
-    mengajar.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
-  });
-  g.tambahan.forEach(x=>{
-    total+=x.jp;
-    tambahan.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
-  });
-
-  totalJP.innerText="Total Beban Kerja: "+total+" JP";
-
-  qr.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(location.href);
-
-  hasil.style.display="block";
-}
-
-function cetakRincian(){
-  window.print();
-}
-
-function toggleMode(){
-  document.body.classList.toggle("dark");
+  const g = dataGuru[u];
+  hasil.innerHTML = `
+    <div class="card">
+      <p><span class="label">Nama:</span> ${g.nama}</p>
+      <p><span class="label">Status:</span> ${g.status}</p>
+      <p><span class="label">Jabatan:</span> ${g.jabatan}</p>
+      <p><span class="label">Tugas Mengajar:</span> ${g.tugasMengajar}</p>
+      <p><span class="label">Tugas Tambahan:</span> ${g.tugasTambahan}</p>
+      <hr>
+      <p><b>SK Pembagian Tugas</b></p>
+      <p>Semester Genap TP 2025/2026</p>
+      <p>Berlaku sejak: <b>05 Januari 2026</b></p>
+      <div class="footer">
+        Terima kasih atas dedikasi pada semester sebelumnya dan selamat menjalankan tugas pada semester genap ini.<br>
+        <i>— Tim Pengembang Kurikulum SMAN 2 Sendawar</i>
+      </div>
+      <button class="print" onclick="window.print()">Cetak Ringkasan</button>
+    </div>
+  `;
 }
 </script>
 
