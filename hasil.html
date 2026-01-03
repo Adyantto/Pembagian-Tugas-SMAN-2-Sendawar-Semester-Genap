@@ -1,16 +1,105 @@
-<script src="data/pembagian-tugas.js"></script>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Guru | SMAN 2 Sendawar</title>
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg,#1e3a8a,#2563eb);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Segoe UI, sans-serif;
+}
+.card{
+  background:#fff;
+  width:100%;
+  max-width:420px;
+  padding:28px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+.logo{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:16px;
+}
+.logo img{ width:68px; }
+h2{ color:#1e3a8a; }
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #cbd5e1;
+}
+button{
+  margin-top:18px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:#2563eb;
+  color:#fff;
+  cursor:pointer;
+}
+button:hover{ background:#1e40af; }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="logo">
+    <img src="logo-provinsi.png">
+    <img src="logo-sman2.png">
+  </div>
+
+  <h2>Login Guru</h2>
+  <p>Masukkan <b>NIP / Username</b></p>
+
+  <input id="usernameInput" type="text">
+
+  <button onclick="login()">Lihat Rincian Tugas</button>
+</div>
+
+<!-- 🔴 WAJIB ADA & BENAR -->
+<script src="data/username.js"></script>
+
 <script>
-const usernameAktif = localStorage.getItem("usernameAktif");
-const namaGuru = localStorage.getItem("namaGuru");
+function login(){
+  const input = document.getElementById("usernameInput").value.trim();
 
-document.getElementById("namaGuru").innerText = namaGuru;
+  if(!input){
+    alert("Silakan masukkan NIP / Username");
+    return;
+  }
 
-const dataGuru = pembagianTugas.filter(
-  d => d.username === usernameAktif
-);
+  if(typeof dataUsername === "undefined"){
+    alert("Database username tidak terbaca");
+    return;
+  }
 
-if(dataGuru.length === 0){
-  document.getElementById("tabelTugas").innerHTML =
-    "<p><i>Data pembagian tugas belum tersedia</i></p>";
+  const guru = dataUsername.find(
+    g => g.username === input || g.nama.toLowerCase() === input.toLowerCase()
+  );
+
+  if(!guru){
+    alert("Data guru tidak ditemukan");
+    return;
+  }
+
+  localStorage.setItem("usernameAktif", guru.username);
+  localStorage.setItem("namaGuru", guru.nama);
+
+  window.location.href = "hasil.html";
 }
 </script>
+
+</body>
+</html>
