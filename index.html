@@ -6,36 +6,73 @@
 <title>Rincian Tugas Guru</title>
 
 <style>
+:root{
+  --primary:#1e3c72;
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#222;
+}
+body.dark{
+  --primary:#90b4ff;
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+}
+
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:"Poppins",Arial,sans-serif;
-  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  background:var(--bg);
+  color:var(--text);
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   padding:16px;
+  transition:.3s;
 }
+
 .card{
-  background:#fff;
+  background:var(--card);
   width:100%;
-  max-width:520px;
+  max-width:560px;
   padding:22px;
-  border-radius:18px;
+  border-radius:20px;
   box-shadow:0 18px 35px rgba(0,0,0,.25);
 }
-h2{
+
+/* HEADER */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px;
+}
+.header img{height:56px}
+.header-center{
   text-align:center;
+  flex:1;
+}
+.header-center h2{
   margin:0;
-  color:#1e3c72;
+  color:var(--primary);
 }
-.sub{
-  text-align:center;
+.header-center p{
+  margin:4px 0 0;
   font-size:14px;
-  color:#555;
-  margin:6px 0 14px;
 }
+
+/* TOGGLE */
+.toggle{
+  text-align:right;
+  font-size:13px;
+  cursor:pointer;
+  color:var(--primary);
+}
+
+/* FORM */
 input,button{
   width:100%;
   padding:12px;
@@ -48,30 +85,43 @@ input{
 button{
   margin-top:10px;
   border:none;
-  background:#1e3c72;
-  color:#fff;
+  background:var(--primary);
+  color:white;
   font-weight:600;
   cursor:pointer;
 }
-button:hover{background:#16305c}
-.result{display:none;margin-top:18px}
+
+/* HASIL */
+.result{
+  display:none;
+  margin-top:18px;
+  animation:fadeUp .4s ease;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}
+
 .section{
   margin-top:14px;
   font-weight:600;
-  color:#1e3c72;
+  color:var(--primary);
 }
 ul{margin:6px 0 0 18px}
+
 .total{
-  background:#eef3ff;
+  background:rgba(30,60,114,.1);
   padding:12px;
   border-radius:10px;
   margin-top:14px;
   font-weight:600;
   text-align:center;
 }
+
+/* PESAN */
 .message{
-  background:#f9f9f9;
-  border-left:4px solid #1e3c72;
+  background:rgba(30,60,114,.05);
+  border-left:4px solid var(--primary);
   padding:14px;
   margin-top:16px;
   border-radius:10px;
@@ -83,11 +133,39 @@ ul{margin:6px 0 0 18px}
   font-weight:600;
   text-align:right;
 }
+
+/* QR */
+.qr{
+  text-align:center;
+  margin-top:16px;
+}
+.qr img{width:120px}
+
+/* ERROR */
 .error{
   text-align:center;
   color:red;
   margin-top:10px;
-  font-size:14px;
+}
+
+/* CETAK */
+@media print{
+  body{background:white}
+  .toggle,button,input{display:none}
+  .card{
+    box-shadow:none;
+    position:relative;
+  }
+  .card::after{
+    content:"SMAN 2 SENDAWAR";
+    position:absolute;
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(-30deg);
+    font-size:60px;
+    color:rgba(0,0,0,.08);
+    white-space:nowrap;
+  }
 }
 </style>
 </head>
@@ -95,8 +173,18 @@ ul{margin:6px 0 0 18px}
 <body>
 
 <div class="card">
-  <h2>Rincian Tugas Guru</h2>
-  <div class="sub">Semester Genap • Tahun Pelajaran 2025/2026</div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="logo-provinsi.png" alt="Logo Provinsi">
+    <div class="header-center">
+      <h2>SMA Negeri 2 Sendawar</h2>
+      <p>Rincian Tugas Guru<br>Semester Genap 2025/2026</p>
+    </div>
+    <img src="logo-sman2.png" alt="Logo Sekolah">
+  </div>
+
+  <div class="toggle" onclick="toggleMode()">🌙 / ☀️ Mode</div>
 
   <input id="username" placeholder="Masukkan USERNAME (NIP tanpa spasi)">
   <button onclick="cariGuru()">Lihat Rincian Tugas</button>
@@ -116,16 +204,18 @@ ul{margin:6px 0 0 18px}
     <div id="totalJP" class="total"></div>
 
     <div class="message">
-      Terima kasih atas dedikasi, komitmen, dan kerja keras Bapak/Ibu Guru
-      dalam melaksanakan tugas pada semester sebelumnya.
-      <br><br>
-      Semoga pada <b>Semester Genap Tahun Pelajaran 2025/2026</b>,
-      Bapak/Ibu senantiasa diberikan kesehatan, semangat, dan kelancaran
-      dalam menjalankan amanah serta peran baru yang diberikan.
+      Terima kasih atas dedikasi dan kinerja Bapak/Ibu Guru
+      pada semester sebelumnya.  
+      Semoga amanah pada semester genap ini
+      membawa keberkahan dan pembelajaran bermakna.
       <div class="signature">
-        — Tim Pengembang Kurikulum<br>
-        SMAN 2 Sendawar
+        — Tim Pengembang Kurikulum<br>SMAN 2 Sendawar
       </div>
+    </div>
+
+    <div class="qr">
+      <p><b>QR Akses Halaman</b></p>
+      <img id="qr">
     </div>
 
     <button onclick="cetakRincian()">Cetak Rincian Individu</button>
@@ -133,170 +223,67 @@ ul{margin:6px 0 0 18px}
 </div>
 
 <script>
-const dataGuru = [
+const dataGuru=[
 {
   username:"199411222024211014",
   nip:"19941122 202421 1 014",
   nama:"Adiyanto, S.Pd., Gr.",
   mengajar:[
-    {uraian:"PKWU – Kelas XII C, D, G, dan H", jp:8},
-    {uraian:"Kimia – Kelas XI A", jp:5}
+    {uraian:"PKWU – XII C, D, G, H",jp:8},
+    {uraian:"Kimia – XI A",jp:5}
   ],
   tambahan:[
-    {uraian:"Kepala Perpustakaan", jp:12},
-    {uraian:"Wali Kelas XII D", jp:2},
-    {uraian:"Pembina OSIS", jp:2},
-    {uraian:"Guru Wali", jp:2}
-  ]
-},
-{
-  username:"196908272002121004",
-  nip:"19690827 200212 1 004",
-  nama:"Agustinus Bhakti Parrangan, S.Pd., M.Pd",
-  mengajar:[
-    {uraian:"Bahasa Inggris – Kelas XI A sampai XI F", jp:18}
-  ],
-  tambahan:[
-    {uraian:"Koordinator Projek Kelas X A", jp:2},
-    {uraian:"Koordinator Projek Kelas X B", jp:2},
-    {uraian:"Koordinator Projek Kelas X C", jp:2},
-    {uraian:"Guru Wali", jp:2}
-  ]
-},
-{
-  username:"199406062020122026",
-  nip:"19940606 202012 2 026",
-  nama:"Al Misbah Hajihi, S.Pd., Gr.",
-  mengajar:[
-    {uraian:"PKN – Kelas XII A, B, dan H", jp:6},
-    {uraian:"PKN – Kelas XI A sampai XI E", jp:10}
-  ],
-  tambahan:[
-    {uraian:"Guru Wali", jp:2},
-    {uraian:"Wali Kelas XI B", jp:2},
-    {uraian:"Koordinator Projek Kelas XII C", jp:2},
-    {uraian:"Koordinator Projek Kelas XII D", jp:2},
-    {uraian:"Koordinator Projek Kelas XII E", jp:2}
+    {uraian:"Kepala Perpustakaan",jp:12},
+    {uraian:"Wali Kelas XII D",jp:2},
+    {uraian:"Pembina OSIS",jp:2},
+    {uraian:"Guru Wali",jp:2}
   ]
 }
 ];
 
-let aktif = null;
+let aktif=null;
 
 function cariGuru(){
-  const u = document.getElementById("username").value.trim();
-  const g = dataGuru.find(x => x.username === u);
-
-  document.getElementById("error").innerText = "";
-  document.getElementById("hasil").style.display = "none";
+  const u=username.value.trim();
+  const g=dataGuru.find(x=>x.username===u);
+  error.innerText="";
+  hasil.style.display="none";
 
   if(!g){
-    document.getElementById("error").innerText = "Data guru tidak ditemukan.";
+    error.innerText="Data guru tidak ditemukan.";
     return;
   }
 
-  aktif = g;
-  document.getElementById("nama").innerText = g.nama;
-  document.getElementById("nip").innerText = g.nip;
+  aktif=g;
+  nama.innerText=g.nama;
+  nip.innerText=g.nip;
 
-  const m = document.getElementById("mengajar");
-  const t = document.getElementById("tambahan");
-  m.innerHTML = ""; t.innerHTML = "";
-
-  let total = 0;
+  mengajar.innerHTML="";
+  tambahan.innerHTML="";
+  let total=0;
 
   g.mengajar.forEach(x=>{
-    total += x.jp;
-    m.innerHTML += `<li>${x.uraian} (${x.jp} JP)</li>`;
+    total+=x.jp;
+    mengajar.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
   });
-
   g.tambahan.forEach(x=>{
-    total += x.jp;
-    t.innerHTML += `<li>${x.uraian} (${x.jp} JP)</li>`;
+    total+=x.jp;
+    tambahan.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
   });
 
-  document.getElementById("totalJP").innerText =
-    "Total Beban Kerja Semester Ini: " + total + " JP";
+  totalJP.innerText="Total Beban Kerja: "+total+" JP";
 
-  document.getElementById("hasil").style.display = "block";
+  qr.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(location.href);
+
+  hasil.style.display="block";
 }
 
 function cetakRincian(){
-  if(!aktif) return;
+  window.print();
+}
 
-  let total = 0;
-  aktif.mengajar.forEach(x=>total+=x.jp);
-  aktif.tambahan.forEach(x=>total+=x.jp);
-
-  const html = `
-  <html>
-  <head>
-    <title>Rincian Tugas Guru</title>
-    <style>
-      body{
-        font-family:"Times New Roman",serif;
-        font-size:12pt;
-        line-height:1.6;
-      }
-      h3{text-align:center;margin-bottom:4px}
-      .center{text-align:center}
-      table{
-        width:100%;
-        border-collapse:collapse;
-        margin-top:10px;
-      }
-      td,th{
-        border:1px solid #000;
-        padding:6px;
-      }
-      .nb td{border:none}
-    </style>
-  </head>
-  <body>
-
-  <h3>RINCIAN TUGAS GURU</h3>
-  <p class="center">Semester Genap Tahun Pelajaran 2025/2026</p>
-
-  <table class="nb">
-    <tr><td width="30%">Nama Guru</td><td>: ${aktif.nama}</td></tr>
-    <tr><td>NIP</td><td>: ${aktif.nip}</td></tr>
-  </table>
-
-  <p><b>Tugas Mengajar</b></p>
-  <table>
-    <tr><th>No</th><th>Uraian</th><th>JP</th></tr>
-    ${aktif.mengajar.map((x,i)=>`
-      <tr><td>${i+1}</td><td>${x.uraian}</td><td>${x.jp}</td></tr>
-    `).join("")}
-  </table>
-
-  <p><b>Tugas Tambahan</b></p>
-  <table>
-    <tr><th>No</th><th>Uraian</th><th>JP</th></tr>
-    ${aktif.tambahan.map((x,i)=>`
-      <tr><td>${i+1}</td><td>${x.uraian}</td><td>${x.jp}</td></tr>
-    `).join("")}
-    <tr><th colspan="2">Total Beban Kerja</th><th>${total}</th></tr>
-  </table>
-
-  <p style="margin-top:28px;font-style:italic">
-    Dokumen ini disajikan sebagai informasi rincian penugasan individu
-    pada semester berjalan.
-  </p>
-
-  <p style="margin-top:40px">
-    Sendawar, 05 Januari 2026
-  </p>
-
-  </body>
-  </html>
-  `;
-
-  const w = window.open("", "_blank");
-  w.document.write(html);
-  w.document.close();
-  w.focus();
-  w.print();
+function toggleMode(){
+  document.body.classList.toggle("dark");
 }
 </script>
 
