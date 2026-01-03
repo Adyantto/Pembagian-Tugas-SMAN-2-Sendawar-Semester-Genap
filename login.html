@@ -2,18 +2,19 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login Guru | SMAN 2 Sendawar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box}
 body{
   margin:0;
   min-height:100vh;
-  background:linear-gradient(135deg,#1e3a8a,#2563eb);
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
   display:flex;
-  justify-content:center;
   align-items:center;
-  font-family:Segoe UI, sans-serif;
+  justify-content:center;
+  font-family:Segoe UI, Arial, sans-serif;
 }
 .card{
   background:#fff;
@@ -21,83 +22,130 @@ body{
   max-width:420px;
   padding:28px;
   border-radius:18px;
-  text-align:center;
   box-shadow:0 20px 40px rgba(0,0,0,.25);
+  text-align:center;
 }
 .logo{
   display:flex;
   justify-content:center;
-  gap:16px;
-  margin-bottom:16px;
+  gap:14px;
+  margin-bottom:12px;
 }
-.logo img{ width:68px; }
-h2{ color:#1e3a8a; }
+.logo img{
+  height:70px;
+}
+h2{
+  margin:10px 0 5px;
+  color:#1e3c72;
+}
+.sub{
+  font-size:14px;
+  color:#555;
+  margin-bottom:20px;
+}
 input{
   width:100%;
   padding:14px;
+  font-size:16px;
   border-radius:12px;
-  border:1px solid #cbd5e1;
+  border:1px solid #ccc;
 }
 button{
-  margin-top:18px;
   width:100%;
+  margin-top:18px;
   padding:14px;
+  font-size:16px;
   border:none;
   border-radius:14px;
-  background:#2563eb;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
   color:#fff;
   cursor:pointer;
 }
-button:hover{ background:#1e40af; }
+button:hover{
+  opacity:.9;
+}
+.error{
+  margin-top:12px;
+  color:#dc2626;
+  font-size:14px;
+  display:none;
+}
+.footer{
+  margin-top:18px;
+  font-size:13px;
+  color:#64748b;
+}
 </style>
 </head>
 
 <body>
 
 <div class="card">
+
   <div class="logo">
-    <img src="logo-provinsi.png">
-    <img src="logo-sman2.png">
+    <img src="logo-provinsi.png" alt="Logo Provinsi">
+    <img src="logo-sman2.png" alt="Logo SMAN 2">
   </div>
 
   <h2>Login Guru</h2>
-  <p>Masukkan <b>NIP / Username</b></p>
+  <div class="sub">
+    Masukkan <b>USERNAME</b><br>
+    (NIP tanpa spasi atau username resmi)
+  </div>
 
-  <input id="usernameInput" type="text">
+  <input
+    type="text"
+    id="usernameInput"
+    placeholder="Masukkan USERNAME"
+    autocomplete="off"
+  >
 
-  <button onclick="login()">Lihat Rincian Tugas</button>
+  <button onclick="loginGuru()">
+    Lihat Rincian Tugas
+  </button>
+
+  <div class="error" id="errorMsg"></div>
+
+  <div class="footer">
+    Semester Genap 2025 / 2026<br>
+    Tim Pengembang Kurikulum SMAN 2 Sendawar
+  </div>
+
 </div>
 
-<!-- 🔴 WAJIB ADA & BENAR -->
+<!-- LOAD DATABASE USERNAME -->
 <script src="data/username.js"></script>
 
 <script>
-function login(){
+function loginGuru(){
   const input = document.getElementById("usernameInput").value.trim();
+  const error = document.getElementById("errorMsg");
 
-  if(!input){
-    alert("Silakan masukkan NIP / Username");
+  error.style.display = "none";
+
+  if(input === ""){
+    error.innerText = "Username wajib diisi";
+    error.style.display = "block";
     return;
   }
 
-  if(typeof dataUsername === "undefined"){
-    alert("Database username tidak terbaca");
+  if(typeof masterGuru === "undefined"){
+    error.innerText = "Database username tidak terbaca";
+    error.style.display = "block";
     return;
   }
 
-  const guru = dataUsername.find(
-    g => g.username === input || g.nama.toLowerCase() === input.toLowerCase()
-  );
+  const guru = masterGuru.find(g => g.username === input);
 
   if(!guru){
-    alert("Data guru tidak ditemukan");
+    error.innerText = "Username tidak ditemukan";
+    error.style.display = "block";
     return;
   }
 
-  localStorage.setItem("usernameAktif", guru.username);
-  localStorage.setItem("namaGuru", guru.nama);
-
-  window.location.href = "hasil.html";
+  // Lanjut ke halaman hasil
+  window.location.href =
+    "hasil.html?username=" + encodeURIComponent(guru.username);
 }
 </script>
 
