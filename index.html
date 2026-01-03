@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rincian Tugas Guru</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Poppins",Arial,sans-serif;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+}
+.card{
+  background:#fff;
+  width:100%;
+  max-width:520px;
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 18px 35px rgba(0,0,0,.25);
+}
+h2{
+  text-align:center;
+  margin:0;
+  color:#1e3c72;
+}
+.sub{
+  text-align:center;
+  font-size:14px;
+  color:#555;
+  margin:6px 0 14px;
+}
+input,button{
+  width:100%;
+  padding:12px;
+  font-size:15px;
+  border-radius:10px;
+}
+input{
+  border:1px solid #ccc;
+}
+button{
+  margin-top:10px;
+  border:none;
+  background:#1e3c72;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+button:hover{background:#16305c}
+.result{display:none;margin-top:18px}
+.section{
+  margin-top:14px;
+  font-weight:600;
+  color:#1e3c72;
+}
+ul{margin:6px 0 0 18px}
+.total{
+  background:#eef3ff;
+  padding:12px;
+  border-radius:10px;
+  margin-top:14px;
+  font-weight:600;
+  text-align:center;
+}
+.message{
+  background:#f9f9f9;
+  border-left:4px solid #1e3c72;
+  padding:14px;
+  margin-top:16px;
+  border-radius:10px;
+  font-size:14px;
+  line-height:1.6;
+}
+.signature{
+  margin-top:10px;
+  font-weight:600;
+  text-align:right;
+}
+.error{
+  text-align:center;
+  color:red;
+  margin-top:10px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Rincian Tugas Guru</h2>
+  <div class="sub">Semester Genap • Tahun Pelajaran 2025/2026</div>
+
+  <input id="username" placeholder="Masukkan USERNAME (NIP tanpa spasi)">
+  <button onclick="cariGuru()">Lihat Rincian Tugas</button>
+
+  <div id="error" class="error"></div>
+
+  <div id="hasil" class="result">
+    <p><b>Nama Guru</b><br><span id="nama"></span></p>
+    <p><b>NIP</b><br><span id="nip"></span></p>
+
+    <div class="section">Tugas Mengajar</div>
+    <ul id="mengajar"></ul>
+
+    <div class="section">Tugas Tambahan</div>
+    <ul id="tambahan"></ul>
+
+    <div id="totalJP" class="total"></div>
+
+    <div class="message">
+      Terima kasih atas dedikasi, komitmen, dan kerja keras Bapak/Ibu Guru
+      dalam melaksanakan tugas pada semester sebelumnya.
+      <br><br>
+      Semoga pada <b>Semester Genap Tahun Pelajaran 2025/2026</b>,
+      Bapak/Ibu senantiasa diberikan kesehatan, semangat, dan kelancaran
+      dalam menjalankan amanah serta peran baru yang diberikan.
+      <div class="signature">
+        — Tim Pengembang Kurikulum<br>
+        SMAN 2 Sendawar
+      </div>
+    </div>
+
+    <button onclick="cetakRincian()">Cetak Rincian Individu</button>
+  </div>
+</div>
+
+<script>
+const dataGuru = [
+{
+  username:"199411222024211014",
+  nip:"19941122 202421 1 014",
+  nama:"Adiyanto, S.Pd., Gr.",
+  mengajar:[
+    {uraian:"PKWU – Kelas XII C, D, G, dan H", jp:8},
+    {uraian:"Kimia – Kelas XI A", jp:5}
+  ],
+  tambahan:[
+    {uraian:"Kepala Perpustakaan", jp:12},
+    {uraian:"Wali Kelas XII D", jp:2},
+    {uraian:"Pembina OSIS", jp:2},
+    {uraian:"Guru Wali", jp:2}
+  ]
+},
+{
+  username:"196908272002121004",
+  nip:"19690827 200212 1 004",
+  nama:"Agustinus Bhakti Parrangan, S.Pd., M.Pd",
+  mengajar:[
+    {uraian:"Bahasa Inggris – Kelas XI A sampai XI F", jp:18}
+  ],
+  tambahan:[
+    {uraian:"Koordinator Projek Kelas X A", jp:2},
+    {uraian:"Koordinator Projek Kelas X B", jp:2},
+    {uraian:"Koordinator Projek Kelas X C", jp:2},
+    {uraian:"Guru Wali", jp:2}
+  ]
+},
+{
+  username:"199406062020122026",
+  nip:"19940606 202012 2 026",
+  nama:"Al Misbah Hajihi, S.Pd., Gr.",
+  mengajar:[
+    {uraian:"PKN – Kelas XII A, B, dan H", jp:6},
+    {uraian:"PKN – Kelas XI A sampai XI E", jp:10}
+  ],
+  tambahan:[
+    {uraian:"Guru Wali", jp:2},
+    {uraian:"Wali Kelas XI B", jp:2},
+    {uraian:"Koordinator Projek Kelas XII C", jp:2},
+    {uraian:"Koordinator Projek Kelas XII D", jp:2},
+    {uraian:"Koordinator Projek Kelas XII E", jp:2}
+  ]
+}
+];
+
+let aktif = null;
+
+function cariGuru(){
+  const u = document.getElementById("username").value.trim();
+  const g = dataGuru.find(x => x.username === u);
+
+  document.getElementById("error").innerText = "";
+  document.getElementById("hasil").style.display = "none";
+
+  if(!g){
+    document.getElementById("error").innerText = "Data guru tidak ditemukan.";
+    return;
+  }
+
+  aktif = g;
+  document.getElementById("nama").innerText = g.nama;
+  document.getElementById("nip").innerText = g.nip;
+
+  const m = document.getElementById("mengajar");
+  const t = document.getElementById("tambahan");
+  m.innerHTML = ""; t.innerHTML = "";
+
+  let total = 0;
+
+  g.mengajar.forEach(x=>{
+    total += x.jp;
+    m.innerHTML += `<li>${x.uraian} (${x.jp} JP)</li>`;
+  });
+
+  g.tambahan.forEach(x=>{
+    total += x.jp;
+    t.innerHTML += `<li>${x.uraian} (${x.jp} JP)</li>`;
+  });
+
+  document.getElementById("totalJP").innerText =
+    "Total Beban Kerja Semester Ini: " + total + " JP";
+
+  document.getElementById("hasil").style.display = "block";
+}
+
+function cetakRincian(){
+  if(!aktif) return;
+
+  let total = 0;
+  aktif.mengajar.forEach(x=>total+=x.jp);
+  aktif.tambahan.forEach(x=>total+=x.jp);
+
+  const html = `
+  <html>
+  <head>
+    <title>Rincian Tugas Guru</title>
+    <style>
+      body{
+        font-family:"Times New Roman",serif;
+        font-size:12pt;
+        line-height:1.6;
+      }
+      h3{text-align:center;margin-bottom:4px}
+      .center{text-align:center}
+      table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:10px;
+      }
+      td,th{
+        border:1px solid #000;
+        padding:6px;
+      }
+      .nb td{border:none}
+    </style>
+  </head>
+  <body>
+
+  <h3>RINCIAN TUGAS GURU</h3>
+  <p class="center">Semester Genap Tahun Pelajaran 2025/2026</p>
+
+  <table class="nb">
+    <tr><td width="30%">Nama Guru</td><td>: ${aktif.nama}</td></tr>
+    <tr><td>NIP</td><td>: ${aktif.nip}</td></tr>
+  </table>
+
+  <p><b>Tugas Mengajar</b></p>
+  <table>
+    <tr><th>No</th><th>Uraian</th><th>JP</th></tr>
+    ${aktif.mengajar.map((x,i)=>`
+      <tr><td>${i+1}</td><td>${x.uraian}</td><td>${x.jp}</td></tr>
+    `).join("")}
+  </table>
+
+  <p><b>Tugas Tambahan</b></p>
+  <table>
+    <tr><th>No</th><th>Uraian</th><th>JP</th></tr>
+    ${aktif.tambahan.map((x,i)=>`
+      <tr><td>${i+1}</td><td>${x.uraian}</td><td>${x.jp}</td></tr>
+    `).join("")}
+    <tr><th colspan="2">Total Beban Kerja</th><th>${total}</th></tr>
+  </table>
+
+  <p style="margin-top:28px;font-style:italic">
+    Dokumen ini disajikan sebagai informasi rincian penugasan individu
+    pada semester berjalan.
+  </p>
+
+  <p style="margin-top:40px">
+    Sendawar, 05 Januari 2026
+  </p>
+
+  </body>
+  </html>
+  `;
+
+  const w = window.open("", "_blank");
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  w.print();
+}
+</script>
+
+</body>
+</html>
