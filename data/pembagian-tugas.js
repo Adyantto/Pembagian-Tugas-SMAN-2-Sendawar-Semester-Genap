@@ -338,3 +338,5 @@ const pembagianTugas = [
   { username:"Yuvenalis Raga Gening", jenis:"tambahan", uraian:"Guru Wali", kelas:"", jp:2 }
 
 ];
+
+window.pembagianTugas = pembagianTugas;
