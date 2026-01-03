@@ -2,17 +2,17 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lampiran SK Pembagian Tugas Guru</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
   font-family:"Times New Roman", serif;
-  background:#f1f5f9;
+  background:#e5e7eb;
 }
 
-/* AREA CETAK */
+/* HALAMAN A4 */
 .page{
   width:210mm;
   min-height:297mm;
@@ -23,60 +23,44 @@ body{
 }
 
 /* KOP */
-.kop{
-  text-align:center;
-  margin-bottom:16px;
-}
-
 .kop img{
   width:100%;
-  max-height:120px;
-  object-fit:contain;
+  margin-bottom:14px;
 }
 
 /* JUDUL */
 .judul{
   text-align:center;
-  margin-top:10px;
+  margin-bottom:16px;
 }
-
 .judul h3{
   margin:6px 0;
   text-decoration:underline;
 }
-
 .judul p{
   margin:2px 0;
+  font-size:12pt;
 }
 
 /* IDENTITAS */
 .identitas{
-  margin-top:18px;
   margin-bottom:12px;
 }
-
-.identitas table{
-  width:100%;
-}
-
-.identitas td{
-  padding:4px 0;
+.identitas table td{
+  padding:3px 0;
+  font-size:12pt;
 }
 
 /* TABEL */
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:10px;
   font-size:12pt;
 }
-
 th, td{
   border:1px solid #000;
   padding:6px;
-  vertical-align:top;
 }
-
 th{
   text-align:center;
 }
@@ -85,6 +69,7 @@ th{
 .subtotal{
   margin-top:10px;
   font-weight:bold;
+  font-size:12pt;
 }
 
 /* TTD */
@@ -92,25 +77,19 @@ th{
   margin-top:40px;
   width:100%;
 }
-
 .ttd .kanan{
   width:40%;
   float:right;
   text-align:center;
 }
-
-.clear{
-  clear:both;
-}
+.clear{ clear:both }
 
 /* CETAK */
 @media print{
-  body{
-    background:#fff;
-  }
+  body{ background:#fff }
   .page{
-    box-shadow:none;
     margin:0;
+    box-shadow:none;
   }
 }
 </style>
@@ -122,13 +101,13 @@ th{
 
   <!-- KOP -->
   <div class="kop">
-    <img src="KOP SEKOLAH.png" alt="Kop Sekolah">
+    <img src="KOP SEKOLAH.png" alt="KOP SEKOLAH">
   </div>
 
   <!-- JUDUL -->
   <div class="judul">
     <h3>LAMPIRAN SURAT KEPUTUSAN</h3>
-    <p>Nomor : 400.3.8/ ............ /SMAN 2 SDWR/2025</p>
+    <p>Nomor : 400.3.8/ __________ /SMAN 2 SDWR/2025</p>
     <p>Tentang Pembagian Tugas Guru</p>
     <p>Semester Genap Tahun Pelajaran 2025 / 2026</p>
   </div>
@@ -149,19 +128,18 @@ th{
     </table>
   </div>
 
-  <!-- TABEL TUGAS -->
+  <!-- TABEL -->
   <table>
     <thead>
       <tr>
         <th width="5%">No</th>
-        <th width="15%">Jenis Tugas</th>
-        <th width="40%">Uraian Tugas</th>
+        <th width="18%">Jenis Tugas</th>
+        <th width="37%">Uraian Tugas</th>
         <th width="25%">Kelas</th>
         <th width="10%">JP</th>
       </tr>
     </thead>
-    <tbody id="tabelCetak">
-    </tbody>
+    <tbody id="tabelTugas"></tbody>
   </table>
 
   <!-- SUBTOTAL -->
@@ -182,58 +160,58 @@ th{
 </div>
 
 <!-- DATABASE -->
+<script src="data/username.js"></script>
 <script src="data/pembagian-tugas.js"></script>
 
 <script>
-// ================= DATA LOGIN =================
-const usernameAktif = localStorage.getItem("usernameAktif");
-const namaGuru = localStorage.getItem("namaGuru");
+// ================= AMBIL USERNAME =================
+const params = new URLSearchParams(window.location.search);
+const username = params.get("username");
 
-if(!usernameAktif){
-  alert("Data login tidak ditemukan");
+if(!username){
+  alert("Username tidak ditemukan");
   window.location.href = "login.html";
 }
 
-// tampilkan identitas
-document.getElementById("namaGuru").innerText = namaGuru;
-document.getElementById("nipGuru").innerText = usernameAktif;
+// ================= DATA GURU =================
+const guru = masterGuru.find(g => g.username === username);
+document.getElementById("namaGuru").innerText = guru ? guru.nama : "-";
+document.getElementById("nipGuru").innerText = guru ? guru.nip : "-";
 
-// ================= FILTER DATA =================
-const dataGuru = pembagianTugas.filter(
-  d => d.username === usernameAktif
-);
+// ================= DATA TUGAS =================
+const dataTugas = pembagianTugas.filter(t => t.username === username);
 
-const tbody = document.getElementById("tabelCetak");
+const tbody = document.getElementById("tabelTugas");
 
-let totalMengajar = 0;
-let totalTambahan = 0;
+let jpMengajar = 0;
+let jpTambahan = 0;
 
-dataGuru.forEach((d,i)=>{
-  if(d.jenis === "mengajar"){
-    totalMengajar += d.jp;
+dataTugas.forEach((t,i)=>{
+  if(t.jenis === "mengajar"){
+    jpMengajar += Number(t.jp);
   }else{
-    totalTambahan += d.jp;
+    jpTambahan += Number(t.jp);
   }
 
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
-    <td align="center">${i+1}</td>
-    <td align="center">${d.jenis === "mengajar" ? "Mengajar" : "Tugas Tambahan"}</td>
-    <td>${d.uraian}</td>
-    <td>${d.kelas || "-"}</td>
-    <td align="center">${d.jp}</td>
+  tbody.innerHTML += `
+    <tr>
+      <td align="center">${i+1}</td>
+      <td align="center">${t.jenis === "mengajar" ? "Mengajar" : "Tugas Tambahan"}</td>
+      <td>${t.uraian}</td>
+      <td>${t.kelas || "-"}</td>
+      <td align="center">${t.jp}</td>
+    </tr>
   `;
-  tbody.appendChild(tr);
 });
 
 // ================= SUBTOTAL =================
 document.getElementById("subtotalJP").innerHTML = `
-  Jumlah JP Mengajar : ${totalMengajar} JP<br>
-  Jumlah JP Tugas Tambahan : ${totalTambahan} JP<br>
-  <b>Total Keseluruhan : ${totalMengajar + totalTambahan} JP</b>
+  Jumlah JP Mengajar : ${jpMengajar} JP<br>
+  Jumlah JP Tugas Tambahan : ${jpTambahan} JP<br>
+  <b>Total Keseluruhan : ${jpMengajar + jpTambahan} JP</b>
 `;
 
-// AUTO PRINT (opsional, aktifkan kalau mau)
+// AUTO PRINT (opsional)
 // window.print();
 </script>
 
