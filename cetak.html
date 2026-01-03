@@ -1,1 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Lampiran SK Pembagian Tugas Guru</title>
 
+<style>
+body{
+  margin:0;
+  font-family:"Times New Roman", serif;
+  background:#e5e7eb;
+}
+
+.page{
+  width:210mm;
+  min-height:297mm;
+  background:#fff;
+  margin:20px auto;
+  padding:20mm;
+}
+
+/* KOP */
+.kop img{
+  width:100%;
+  margin-bottom:14px;
+}
+
+/* JUDUL */
+.judul{
+  text-align:center;
+  margin-bottom:18px;
+}
+.judul h3{
+  margin:6px 0;
+  text-decoration:underline;
+}
+.judul .nomor{
+  margin-bottom:20px;
+  font-size:12pt;
+}
+.judul .tentang{
+  font-size:12pt;
+}
+
+/* IDENTITAS */
+.identitas{
+  margin-bottom:14px;
+}
+.identitas td{
+  padding:3px 0;
+  font-size:12pt;
+}
+
+/* SUB JUDUL */
+.subjudul{
+  margin:14px 0 6px;
+  font-weight:bold;
+  font-size:12pt;
+}
+
+/* TABEL */
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12pt;
+  margin-bottom:8px;
+}
+th, td{
+  border:1px solid #000;
+  padding:6px;
+}
+th{
+  text-align:center;
+}
+
+/* SUBTOTAL */
+.subtotal{
+  margin-bottom:12px;
+  font-weight:bold;
+  font-size:12pt;
+}
+
+/* TTD */
+.ttd{
+  margin-top:40px;
+}
+.ttd .kanan{
+  width:40%;
+  float:right;
+  text-align:center;
+}
+.clear{clear:both}
+
+@media print{
+  body{background:#fff}
+  .page{margin:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- KOP -->
+  <div class="kop">
+    <img src="KOP SEKOLAH.png" alt="KOP SEKOLAH">
+  </div>
+
+  <!-- JUDUL -->
+  <div class="judul">
+    <h3>LAMPIRAN SURAT KEPUTUSAN</h3>
+
+    <div class="nomor">
+      Nomor : 400.3.8/ __________ /SMAN 2 SDWR/2025
+    </div>
+
+    <div class="tentang">
+      Tentang Pembagian Tugas Guru<br>
+      Semester Genap Tahun Pelajaran 2025 / 2026
+    </div>
+  </div>
+
+  <!-- IDENTITAS -->
+  <table class="identitas">
+    <tr>
+      <td width="30%">Nama Guru</td>
+      <td width="5%">:</td>
+      <td id="namaGuru"></td>
+    </tr>
+    <tr>
+      <td>NIP</td>
+      <td>:</td>
+      <td id="nipGuru"></td>
+    </tr>
+  </table>
+
+  <!-- TUGAS MENGAJAR -->
+  <div class="subjudul">A. Tugas Mengajar</div>
+  <table>
+    <thead>
+      <tr>
+        <th width="5%">No</th>
+        <th width="45%">Mata Pelajaran</th>
+        <th width="35%">Kelas</th>
+        <th width="15%">JP</th>
+      </tr>
+    </thead>
+    <tbody id="tugasMengajar"></tbody>
+  </table>
+  <div class="subtotal" id="totalMengajar"></div>
+
+  <!-- TUGAS TAMBAHAN -->
+  <div class="subjudul">B. Tugas Tambahan</div>
+  <table>
+    <thead>
+      <tr>
+        <th width="5%">No</th>
+        <th width="75%">Uraian Tugas Tambahan</th>
+        <th width="20%">Bobot JP</th>
+      </tr>
+    </thead>
+    <tbody id="tugasTambahan"></tbody>
+  </table>
+  <div class="subtotal" id="totalTambahan"></div>
+
+  <!-- TTD -->
+  <div class="ttd">
+    <div class="kanan">
+      <p>Sendawar, 05 Januari 2026</p>
+      <p>Kepala SMA Negeri 2 Sendawar</p>
+      <br><br><br>
+      <p><b>Fardinandus Erikson, S.Fil</b><br>
+      NIP. 19691010 200801 1 026</p>
+    </div>
+    <div class="clear"></div>
+  </div>
+
+</div>
+
+<!-- DATABASE -->
+<script src="data/username.js"></script>
+<script src="data/pembagian-tugas.js"></script>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const username = params.get("username");
+
+if(!username){
+  alert("Data guru tidak ditemukan");
+  window.location.href = "login.html";
+}
+
+// DATA GURU
+const guru = masterGuru.find(g => g.username === username);
+document.getElementById("namaGuru").innerText = guru ? guru.nama : "-";
+document.getElementById("nipGuru").innerText = guru ? guru.nip : "-";
+
+// DATA TUGAS
+const tugas = pembagianTugas.filter(t => t.username === username);
+
+let noA = 1, noB = 1;
+let jpA = 0, jpB = 0;
+
+// TUGAS MENGAJAR
+tugas.forEach(t => {
+  if(t.jenis === "mengajar"){
+    jpA += t.jp;
+    document.getElementById("tugasMengajar").innerHTML += `
+      <tr>
+        <td align="center">${noA++}</td>
+        <td>${t.uraian}</td>
+        <td>${t.kelas}</td>
+        <td align="center">${t.jp}</td>
+      </tr>
+    `;
+  }
+});
+
+// TUGAS TAMBAHAN (TANPA KELAS)
+tugas.forEach(t => {
+  if(t.jenis === "tambahan"){
+    jpB += t.jp;
+    document.getElementById("tugasTambahan").innerHTML += `
+      <tr>
+        <td align="center">${noB++}</td>
+        <td>${t.uraian}</td>
+        <td align="center">${t.jp}</td>
+      </tr>
+    `;
+  }
+});
+
+document.getElementById("totalMengajar").innerText =
+  "Jumlah JP Tugas Mengajar : " + jpA + " JP";
+
+document.getElementById("totalTambahan").innerText =
+  "Jumlah JP Tugas Tambahan : " + jpB + " JP";
+</script>
+
+</body>
+</html>
