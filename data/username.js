@@ -63,3 +63,5 @@ const masterGuru = [
   { username:"Vidrich Dendi", nip:"", nama:"Vidrich Dendi, S.Pd., Gr." },
   { username:"Yuvenalis Raga Gening", nip:"", nama:"Yuvenalis Raga Gening, S.Ag., M.Th" }
 ];
+
+window.masterGuru = masterGuru;
