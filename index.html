@@ -12,13 +12,6 @@
   --card:#ffffff;
   --text:#1f2937;
 }
-body.dark{
-  --primary:#93c5fd;
-  --bg:#0f172a;
-  --card:#111827;
-  --text:#e5e7eb;
-}
-
 *{box-sizing:border-box}
 body{
   margin:0;
@@ -32,7 +25,7 @@ body{
   padding:16px;
 }
 
-/* CARD */
+/* CARD WEB */
 .card{
   background:var(--card);
   width:100%;
@@ -42,24 +35,16 @@ body{
   box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
 
-/* HEADER (LAYAR SAJA) */
+/* HEADER WEB */
 .header{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:10px;
-  margin-bottom:12px;
 }
 .header img{
   height:56px;
-  max-width:72px;
   object-fit:contain;
-  animation:floatLogo 4s ease-in-out infinite;
-}
-@keyframes floatLogo{
-  0%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
-  100%{transform:translateY(0)}
 }
 .header-center{
   text-align:center;
@@ -93,36 +78,6 @@ button{
 
 /* HASIL */
 .result{display:none;margin-top:18px}
-.section{
-  margin-top:14px;
-  font-weight:600;
-  color:var(--primary);
-}
-ul{margin:6px 0 0 18px}
-.total{
-  background:rgba(30,60,114,.1);
-  padding:12px;
-  border-radius:12px;
-  margin-top:14px;
-  font-weight:600;
-  text-align:center;
-}
-
-/* PESAN */
-.message{
-  background:rgba(30,60,114,.06);
-  border-left:4px solid var(--primary);
-  padding:14px;
-  margin-top:16px;
-  border-radius:12px;
-  font-size:14px;
-  line-height:1.6;
-}
-.signature{
-  margin-top:10px;
-  font-weight:600;
-  text-align:right;
-}
 
 /* ERROR */
 .error{
@@ -131,32 +86,39 @@ ul{margin:6px 0 0 18px}
   margin-top:10px;
 }
 
-/* =========================
-   MODE CETAK (KHUSUS)
-   ========================= */
+/* =====================
+   MODE CETAK (LAMPIRAN SK)
+   ===================== */
 @media print{
   body{background:white}
-  input,button,.header{display:none}
+  .header,input,button{display:none}
   .card{
     box-shadow:none;
-    padding-top:0;
+    padding:0;
   }
 
-  /* KOP SEKOLAH */
-  .kop-cetak{
+  .kop{
     display:block !important;
-    text-align:center;
-    margin-bottom:16px;
+    margin-bottom:10px;
   }
-  .kop-cetak img{
+  .kop img{
     width:100%;
     max-height:140px;
     object-fit:contain;
   }
-}
 
-/* default: kop disembunyikan */
-.kop-cetak{display:none}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12pt;
+  }
+  th,td{
+    border:1px solid #000;
+    padding:6px;
+  }
+  .nb td{border:none}
+}
+.kop{display:none}
 </style>
 </head>
 
@@ -164,75 +126,122 @@ ul{margin:6px 0 0 18px}
 
 <div class="card">
 
-  <!-- HEADER UNTUK LAYAR -->
+  <!-- HEADER WEB -->
   <div class="header">
-    <img src="logo-provinsi.png.png" alt="Logo Provinsi">
+    <img src="logo-provinsi.png">
     <div class="header-center">
       <h2>SMA Negeri 2 Sendawar</h2>
-      <p>Rincian Tugas Guru<br>Semester Genap TP 2025/2026</p>
+      <p>Rincian Tugas Guru – Semester Genap TP 2025/2026</p>
     </div>
-    <img src="logo-sma.png" alt="Logo Sekolah">
+    <img src="logo-sman2.png">
   </div>
 
-  <!-- KOP KHUSUS CETAK -->
-  <div class="kop-cetak">
-    <img src="KOP SEKOLAH.png" alt="Kop SMA Negeri 2 Sendawar">
+  <!-- KOP CETAK -->
+  <div class="kop">
+    <img src="KOP SEKOLAH.png">
   </div>
 
+  <!-- INPUT -->
   <input id="username" placeholder="Masukkan USERNAME (NIP tanpa spasi)">
   <button onclick="cariGuru()">Lihat Rincian Tugas</button>
 
   <div id="error" class="error"></div>
 
+  <!-- HASIL -->
   <div id="hasil" class="result">
-    <p><b>Nama Guru</b><br><span id="nama"></span></p>
-    <p><b>NIP</b><br><span id="nip"></span></p>
 
-    <div class="section">Tugas Mengajar</div>
-    <ul id="mengajar"></ul>
+    <!-- JUDUL LAMPIRAN SK -->
+    <h3 style="text-align:center;margin:6px 0">
+      LAMPIRAN SURAT KEPUTUSAN<br>
+      KEPALA SMA NEGERI 2 SENDAWAR
+    </h3>
 
-    <div class="section">Tugas Tambahan</div>
-    <ul id="tambahan"></ul>
+    <!-- NOMOR SK -->
+    <table class="nb">
+      <tr>
+        <td width="25%">Nomor</td>
+        <td>: <b>400.3.8/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/SMAN 2 SDWR/2025</b></td>
+      </tr>
+      <tr>
+        <td>Tentang</td>
+        <td>: Pembagian Tugas Guru Semester Genap Tahun Pelajaran 2025/2026</td>
+      </tr>
+    </table>
 
-    <div id="totalJP" class="total"></div>
+    <br>
 
-    <div class="message">
-      Terima kasih atas dedikasi dan kinerja Bapak/Ibu Guru
-      pada semester sebelumnya. Semoga amanah pada semester genap ini
-      membawa keberkahan dan pembelajaran yang bermakna.
-      <div class="signature">
-        — Tim Pengembang Kurikulum<br>
-        SMAN 2 Sendawar
-      </div>
-    </div>
+    <!-- IDENTITAS GURU -->
+    <table class="nb">
+      <tr><td width="25%">Nama Guru</td><td>: <span id="nama"></span></td></tr>
+      <tr><td>NIP</td><td>: <span id="nip"></span></td></tr>
+    </table>
 
-    <button onclick="window.print()">Cetak Rincian Individu</button>
+    <p><b>A. Tugas Mengajar</b></p>
+    <table>
+      <tr>
+        <th>No</th>
+        <th>Mata Pelajaran</th>
+        <th>Kelas</th>
+        <th>JP</th>
+      </tr>
+      <tbody id="tblMengajar"></tbody>
+    </table>
+
+    <p><b>B. Tugas Tambahan</b></p>
+    <table>
+      <tr>
+        <th>No</th>
+        <th>Uraian Tugas</th>
+        <th>JP</th>
+      </tr>
+      <tbody id="tblTambahan"></tbody>
+      <tr>
+        <th colspan="2">Total Beban Kerja</th>
+        <th id="totalJP"></th>
+      </tr>
+    </table>
+
+    <br><br>
+
+    <!-- TTD KEPALA SEKOLAH -->
+    <table class="nb" style="width:100%">
+      <tr>
+        <td width="60%"></td>
+        <td>
+          Sendawar, 05 Januari 2026<br>
+          Kepala Sekolah<br><br><br><br>
+          <b>Fardinandus Erikson, S.Fil</b><br>
+          Penata Tk. I<br>
+          NIP. 19691010 200801 1 026
+        </td>
+      </tr>
+    </table>
+
   </div>
-
 </div>
 
 <script>
 const dataGuru = [
-  {
-    id:"199411222024211014",
-    nip:"19941122 202421 1 014",
-    nama:"Adiyanto, S.Pd., Gr.",
-    mengajar:[
-      {uraian:"PKWU – XII C, D, G, dan H", jp:8},
-      {uraian:"Kimia – XI A", jp:5}
-    ],
-    tambahan:[
-      {uraian:"Kepala Perpustakaan", jp:12},
-      {uraian:"Wali Kelas XII D", jp:2},
-      {uraian:"Pembina OSIS", jp:2},
-      {uraian:"Guru Wali", jp:2}
-    ]
-  }
+{
+  id:"199411222024211014",
+  nip:"19941122 202421 1 014",
+  nama:"Adiyanto, S.Pd., Gr.",
+  mengajar:[
+    {mapel:"PKWU", kelas:"XII C, D, G, H", jp:8},
+    {mapel:"Kimia", kelas:"XI A", jp:5}
+  ],
+  tambahan:[
+    {uraian:"Kepala Perpustakaan", jp:12},
+    {uraian:"Wali Kelas XII D", jp:2},
+    {uraian:"Pembina OSIS", jp:2},
+    {uraian:"Guru Wali", jp:2}
+  ]
+}
 ];
 
 function cariGuru(){
-  const u = username.value.trim();
-  const g = dataGuru.find(x => x.id === u);
+  const u=username.value.trim();
+  const g=dataGuru.find(x=>x.id===u);
 
   error.innerText="";
   hasil.style.display="none";
@@ -245,20 +254,32 @@ function cariGuru(){
   nama.innerText=g.nama;
   nip.innerText=g.nip;
 
-  mengajar.innerHTML="";
-  tambahan.innerHTML="";
+  tblMengajar.innerHTML="";
+  tblTambahan.innerHTML="";
   let total=0;
 
-  g.mengajar.forEach(x=>{
+  g.mengajar.forEach((x,i)=>{
     total+=x.jp;
-    mengajar.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
-  });
-  g.tambahan.forEach(x=>{
-    total+=x.jp;
-    tambahan.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
+    tblMengajar.innerHTML+=`
+      <tr>
+        <td>${i+1}</td>
+        <td>${x.mapel}</td>
+        <td>${x.kelas}</td>
+        <td>${x.jp}</td>
+      </tr>`;
   });
 
-  totalJP.innerText="Total Beban Kerja: "+total+" JP";
+  g.tambahan.forEach((x,i)=>{
+    total+=x.jp;
+    tblTambahan.innerHTML+=`
+      <tr>
+        <td>${i+1}</td>
+        <td>${x.uraian}</td>
+        <td>${x.jp}</td>
+      </tr>`;
+  });
+
+  totalJP.innerText=total;
   hasil.style.display="block";
 }
 </script>
