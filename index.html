@@ -1,109 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembagian Tugas Guru | SMAN 2 Sendawar</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:15px;
+}
+.container{
+  max-width:420px;
+  margin:auto;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+/* HEADER LOGO */
+.logo-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.logo-row img{
+  height:55px;
+}
+
+/* KOP SK */
+.kop{
+  margin-bottom:15px;
+}
+.kop img{
+  width:100%;
+}
+
+h2{
+  text-align:center;
+  color:#0a4d2c;
+  margin:10px 0;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  margin-top:10px;
+}
+button{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  background:#0a4d2c;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+}
+button:hover{background:#08703e}
+
+.card{
+  margin-top:20px;
+  padding:15px;
+  background:#f9fafb;
+  border-radius:8px;
+}
+.label{font-weight:bold}
+.footer{
+  font-size:13px;
+  margin-top:10px;
+}
+.print{
+  background:#555;
+  margin-top:15px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+}
+th,td{
+  border:1px solid #ccc;
+  padding:6px;
+  font-size:14px;
+}
+th{
+  background:#e8f3ee;
+}
+
+@media print{
+  input,button,.logo-row{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGO HALAMAN AWAL -->
+  <div class="logo-row">
+    <img src="logo-sman2.png.jpg" alt="Logo SMAN 2 Sendawar">
+    <img src="logo-provinsi.png.png" alt="Logo Provinsi">
+  </div>
+
+  <h2>Cek Pembagian Tugas Guru</h2>
+
+  <input type="text" id="username" placeholder="Masukkan USERNAME">
+  <button onclick="cekData()">Cek Data</button>
+
+  <div id="hasil"></div>
+</div>
+
 <script>
 const dataGuru = {
-  "199411222024211014": {
-    nama: "Adiyanto, S.Pd., Gr.",
-    status: "PPPK",
-    jabatan: "Guru Ahli Pertama",
-    mapel: "—",
-    mengajar: [
-      { kelas: "XI A", jp: 4 },
-      { kelas: "XI B", jp: 4 },
-      { kelas: "X A", jp: 4 }
+  "199411222024211014":{
+    nama:"Adiyanto, S.Pd., Gr.",
+    status:"PPPK",
+    jabatan:"Guru Ahli Pertama",
+    mapel:"—",
+    mengajar:[
+      {kelas:"XI A",jp:4},
+      {kelas:"XI B",jp:4},
+      {kelas:"X A",jp:4}
     ],
-    tugasTambahan: [
-      "Anggota Tim Pengembang Kurikulum"
-    ]
+    tugasTambahan:["Anggota Tim Pengembang Kurikulum"]
   },
 
-  "196908272002121004": {
-    nama: "Agustinus Bhakti Parrangan, S.Pd., M.Pd",
-    status: "PNS",
-    jabatan: "Guru Ahli Muda",
-    mapel: "Pendidikan Agama Katolik",
-    mengajar: [
-      { kelas: "X A", jp: 3 },
-      { kelas: "X B", jp: 3 },
-      { kelas: "XI A", jp: 3 },
-      { kelas: "XI B", jp: 3 }
+  "196908272002121004":{
+    nama:"Agustinus Bhakti Parrangan, S.Pd., M.Pd",
+    status:"PNS",
+    jabatan:"Guru Ahli Muda",
+    mapel:"Pendidikan Agama Katolik",
+    mengajar:[
+      {kelas:"X A",jp:3},
+      {kelas:"X B",jp:3},
+      {kelas:"XI A",jp:3},
+      {kelas:"XI B",jp:3}
     ],
-    tugasTambahan: [
-      "Koordinator Pendidikan Agama Katolik"
-    ]
+    tugasTambahan:["Koordinator Pendidikan Agama Katolik"]
   },
 
-  "199406062020122026": {
-    nama: "Al Misbah Hajihi, S.Pd., Gr.",
-    status: "PNS",
-    jabatan: "Guru Ahli Pertama",
-    mapel: "Bahasa Indonesia",
-    mengajar: [
-      { kelas: "X C", jp: 4 },
-      { kelas: "X D", jp: 4 },
-      { kelas: "XI C", jp: 4 }
+  "199406062020122026":{
+    nama:"Al Misbah Hajihi, S.Pd., Gr.",
+    status:"PNS",
+    jabatan:"Guru Ahli Pertama",
+    mapel:"Bahasa Indonesia",
+    mengajar:[
+      {kelas:"X C",jp:4},
+      {kelas:"X D",jp:4},
+      {kelas:"XI C",jp:4}
     ],
-    tugasTambahan: [
-      "Wali Kelas XI C"
-    ]
+    tugasTambahan:["Wali Kelas XI C"]
   }
 };
 
-function cekData() {
-  const u = document.getElementById("username").value.trim();
-  const hasil = document.getElementById("hasil");
+function cekData(){
+  const u=document.getElementById("username").value.trim();
+  const hasil=document.getElementById("hasil");
 
-  if (!dataGuru[u]) {
-    hasil.innerHTML = "<p style='color:red'>USERNAME tidak ditemukan.</p>";
+  if(!dataGuru[u]){
+    hasil.innerHTML="<p style='color:red'>USERNAME tidak ditemukan.</p>";
     return;
   }
 
-  const g = dataGuru[u];
-  let totalJP = 0;
+  const g=dataGuru[u];
+  let totalJP=0;
 
-  let tabelMengajar = `
-    <table style="width:100%;border-collapse:collapse;margin-top:8px">
-      <tr style="background:#e8f3ee">
-        <th style="border:1px solid #ccc;padding:6px">Kelas</th>
-        <th style="border:1px solid #ccc;padding:6px">JP</th>
-      </tr>
-  `;
-
-  g.mengajar.forEach(m => {
-    totalJP += m.jp;
-    tabelMengajar += `
-      <tr>
-        <td style="border:1px solid #ccc;padding:6px">${m.kelas}</td>
-        <td style="border:1px solid #ccc;padding:6px;text-align:center">${m.jp}</td>
-      </tr>
-    `;
+  let rows="";
+  g.mengajar.forEach(m=>{
+    totalJP+=m.jp;
+    rows+=`<tr><td>${m.kelas}</td><td style="text-align:center">${m.jp}</td></tr>`;
   });
 
-  tabelMengajar += `
-      <tr style="font-weight:bold">
-        <td style="border:1px solid #ccc;padding:6px">Total JP</td>
-        <td style="border:1px solid #ccc;padding:6px;text-align:center">${totalJP}</td>
-      </tr>
-    </table>
-  `;
+  hasil.innerHTML=`
+    <!-- KOP KHUSUS SK -->
+    <div class="kop">
+      <img src="KOP SEKOLAH.png" alt="Kop Sekolah">
+    </div>
 
-  hasil.innerHTML = `
     <div class="card">
+      <p style="text-align:center;font-weight:bold">
+        SURAT KEPUTUSAN KEPALA SMA NEGERI 2 SENDAWAR<br>
+        <span style="font-size:14px">Semester Genap Tahun Pelajaran 2025/2026</span>
+      </p>
+
       <p><span class="label">Nama:</span> ${g.nama}</p>
       <p><span class="label">Status:</span> ${g.status}</p>
       <p><span class="label">Jabatan:</span> ${g.jabatan}</p>
       <p><span class="label">Mata Pelajaran:</span> ${g.mapel}</p>
 
-      <p class="label" style="margin-top:10px">Tugas Mengajar:</p>
-      ${tabelMengajar}
+      <p class="label">Tugas Mengajar:</p>
+      <table>
+        <tr><th>Kelas</th><th>JP</th></tr>
+        ${rows}
+        <tr style="font-weight:bold">
+          <td>Total JP</td>
+          <td style="text-align:center">${totalJP}</td>
+        </tr>
+      </table>
 
-      <p class="label" style="margin-top:10px">Tugas Tambahan:</p>
-      <ul>
-        ${g.tugasTambahan.map(t => `<li>${t}</li>`).join("")}
-      </ul>
+      <p class="label">Tugas Tambahan:</p>
+      <ul>${g.tugasTambahan.map(t=>`<li>${t}</li>`).join("")}</ul>
 
       <hr>
-      <p><b>SK Pembagian Tugas</b></p>
-      <p>Semester Genap Tahun Pelajaran 2025/2026</p>
-      <p>Berlaku sejak: <b>05 Januari 2026</b></p>
+      <p><b>Berlaku sejak:</b> 05 Januari 2026</p>
 
       <div class="footer">
         Terima kasih atas dedikasi pada semester sebelumnya dan selamat menjalankan tugas pada semester genap ini.<br>
@@ -115,3 +223,6 @@ function cekData() {
   `;
 }
 </script>
+
+</body>
+</html>
