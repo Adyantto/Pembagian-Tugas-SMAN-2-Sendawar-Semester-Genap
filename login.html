@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Guru | SMAN 2 Sendawar</title>
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Segoe UI, sans-serif;
+}
+
+.card{
+  background:#ffffff;
+  width:100%;
+  max-width:420px;
+  padding:28px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+  animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.logo{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:16px;
+}
+
+.logo img{
+  width:64px;
+}
+
+h2{
+  margin:8px 0;
+  color:#1e3a8a;
+}
+
+p{
+  color:#475569;
+  font-size:.95rem;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-top:18px;
+  border-radius:12px;
+  border:1px solid #cbd5f5;
+  font-size:1rem;
+  outline:none;
+}
+
+button{
+  margin-top:18px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#1e3a8a,#38bdf8);
+  color:#fff;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+small{
+  display:block;
+  margin-top:14px;
+  color:#64748b;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <div class="logo">
+    <img src="logo-provinsi.png" alt="Logo Provinsi">
+    <img src="logo-sman2.png" alt="Logo SMAN 2 Sendawar">
+  </div>
+
+  <h2>Login Guru</h2>
+  <p>Masukkan <b>USERNAME (NIP tanpa spasi)</b></p>
+
+  <input
+    type="text"
+    id="username"
+    placeholder="Contoh: 199411222024211014"
+  >
+
+  <button onclick="login()">Lihat Rincian Tugas</button>
+
+  <small>Semester Genap 2025 / 2026</small>
+
+</div>
+
+<!-- DATABASE -->
+<script src="data/master-guru.js"></script>
+
+<script>
+function login(){
+  const input = document.getElementById("username").value.trim();
+
+  if(!input){
+    alert("Silakan masukkan username");
+    return;
+  }
+
+  const guru = masterGuru.find(g => g.username === input);
+
+  if(!guru){
+    alert("Username tidak ditemukan");
+    return;
+  }
+
+  // simpan data sementara
+  localStorage.setItem("usernameAktif", guru.username);
+  localStorage.setItem("namaGuru", guru.nama);
+
+  // lanjut ke halaman hasil
+  window.location.href = "hasil.html";
+}
+</script>
+
+</body>
+</html>
