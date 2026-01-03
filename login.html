@@ -32,17 +32,25 @@ body{
   to{opacity:1;transform:translateY(0)}
 }
 
+/* ===== LOGO ===== */
 .logo{
   display:flex;
   justify-content:center;
-  gap:16px;
-  margin-bottom:16px;
+  gap:18px;
+  margin-bottom:18px;
 }
 
 .logo img{
-  width:64px;
+  width:70px;
+  animation: spinSlow 18s linear infinite;
 }
 
+@keyframes spinSlow{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+/* ===== TEXT ===== */
 h2{
   margin:8px 0;
   color:#1e3a8a;
@@ -53,6 +61,7 @@ p{
   font-size:.95rem;
 }
 
+/* ===== INPUT ===== */
 input{
   width:100%;
   padding:14px;
@@ -63,6 +72,7 @@ input{
   outline:none;
 }
 
+/* ===== BUTTON ===== */
 button{
   margin-top:18px;
   width:100%;
@@ -87,18 +97,19 @@ small{
 
 <div class="card">
 
+  <!-- LOGO -->
   <div class="logo">
     <img src="logo-provinsi.png" alt="Logo Provinsi">
     <img src="logo-sman2.png" alt="Logo SMAN 2 Sendawar">
   </div>
 
   <h2>Login Guru</h2>
-  <p>Masukkan <b>USERNAME (NIP tanpa spasi)</b></p>
+  <p>Masukkan <b>USERNAME (NIP / Nama Lengkap)</b></p>
 
   <input
     type="text"
     id="username"
-    placeholder="Contoh: 199411222024211014"
+    placeholder=""
   >
 
   <button onclick="login()">Lihat Rincian Tugas</button>
@@ -115,22 +126,22 @@ function login(){
   const input = document.getElementById("username").value.trim();
 
   if(!input){
-    alert("Silakan masukkan username");
+    alert("Silakan masukkan NIP atau Nama Lengkap");
     return;
   }
 
-  const guru = masterGuru.find(g => g.username === input);
+  const guru = masterGuru.find(g =>
+    g.username === input || g.nama.toLowerCase() === input.toLowerCase()
+  );
 
   if(!guru){
-    alert("Username tidak ditemukan");
+    alert("Data tidak ditemukan");
     return;
   }
 
-  // simpan data sementara
   localStorage.setItem("usernameAktif", guru.username);
   localStorage.setItem("namaGuru", guru.nama);
 
-  // lanjut ke halaman hasil
   window.location.href = "hasil.html";
 }
 </script>
