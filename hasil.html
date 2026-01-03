@@ -2,102 +2,179 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<title>Rincian Tugas Guru</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Guru | SMAN 2 Sendawar</title>
 
 <style>
 body{
   margin:0;
-  min-height:100vh;
-  background:linear-gradient(135deg,#1e3a8a,#2563eb);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Segoe UI, sans-serif;
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f1f5f9;
 }
-.card{
-  background:#fff;
-  width:100%;
-  max-width:420px;
-  padding:28px;
-  border-radius:18px;
+.header{
+  background:linear-gradient(135deg,#1e3c72,#2a7de1);
+  color:#fff;
+  padding:32px 16px;
   text-align:center;
-  box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
-.logo{
-  display:flex;
-  justify-content:center;
-  gap:16px;
+.header h1{
+  margin:0;
+  font-size:26px;
+}
+.header p{
+  margin-top:8px;
+  font-size:15px;
+  opacity:.9;
+}
+
+.container{
+  max-width:900px;
+  margin:-40px auto 40px;
+  background:#fff;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.section-title{
+  font-size:20px;
+  font-weight:600;
+  color:#1e3c72;
   margin-bottom:16px;
 }
-.logo img{ width:68px; }
-h2{ color:#1e3a8a; }
-input{
+
+table{
   width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #cbd5e1;
+  border-collapse:collapse;
+  margin-bottom:20px;
+}
+th,td{
+  padding:12px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+}
+th{
+  background:#f8fafc;
+  color:#1e293b;
+}
+
+.total{
+  font-weight:bold;
+  background:#f0fdf4;
+}
+
+.actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
 }
 button{
-  margin-top:18px;
-  width:100%;
-  padding:14px;
+  padding:12px 20px;
   border:none;
-  border-radius:14px;
-  background:#2563eb;
-  color:#fff;
+  border-radius:12px;
   cursor:pointer;
+  font-size:15px;
 }
-button:hover{ background:#1e40af; }
+.back{
+  background:#64748b;
+  color:#fff;
+}
+.print{
+  background:#22c55e;
+  color:#fff;
+}
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <div class="logo">
-    <img src="logo-provinsi.png">
-    <img src="logo-sman2.png">
-  </div>
-
-  <h2>Login Guru</h2>
-  <p>Masukkan <b>NIP / Username</b></p>
-
-  <input id="usernameInput" type="text">
-
-  <button onclick="login()">Lihat Rincian Tugas</button>
+<div class="header">
+  <h1 id="namaGuru">Nama Guru</h1>
+  <p>Rincian Tugas Semester Genap Tahun Pelajaran 2025 / 2026</p>
 </div>
 
-<!-- 🔴 WAJIB ADA & BENAR -->
+<div class="container">
+
+  <div class="section-title">Tugas Mengajar & Tugas Tambahan</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Jenis</th>
+        <th>Uraian Tugas</th>
+        <th>Kelas</th>
+        <th>JP</th>
+      </tr>
+    </thead>
+    <tbody id="tugasBody"></tbody>
+    <tfoot>
+      <tr class="total">
+        <td colspan="4">Total Jam Pelajaran</td>
+        <td id="totalJP">0</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="actions">
+    <button class="back" onclick="window.location.href='login.html'">
+      Kembali
+    </button>
+    <button class="print" onclick="cetakSK()">
+      Cetak Lampiran SK
+    </button>
+  </div>
+
+</div>
+
+<!-- DATABASE -->
 <script src="data/username.js"></script>
+<script src="data/pembagian-tugas.js"></script>
 
 <script>
-function login(){
-  const input = document.getElementById("usernameInput").value.trim();
+const params = new URLSearchParams(window.location.search);
+const username = params.get("username");
 
-  if(!input){
-    alert("Silakan masukkan NIP / Username");
-    return;
-  }
+if(!username){
+  alert("Username tidak ditemukan");
+  window.location.href="login.html";
+}
 
-  if(typeof dataUsername === "undefined"){
-    alert("Database username tidak terbaca");
-    return;
-  }
+// Cari guru
+const guru = masterGuru.find(g => g.username === username);
+document.getElementById("namaGuru").innerText = guru ? guru.nama : "Guru";
 
-  const guru = dataUsername.find(
-    g => g.username === input || g.nama.toLowerCase() === input.toLowerCase()
-  );
+// Filter tugas
+const dataTugas = pembagianTugas.filter(t => t.username === username);
 
-  if(!guru){
-    alert("Data guru tidak ditemukan");
-    return;
-  }
+const tbody = document.getElementById("tugasBody");
+let total = 0;
 
-  localStorage.setItem("usernameAktif", guru.username);
-  localStorage.setItem("namaGuru", guru.nama);
+if(dataTugas.length === 0){
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="5" style="text-align:center;color:#999">
+        Data tugas belum tersedia
+      </td>
+    </tr>`;
+}else{
+  dataTugas.forEach((t,i)=>{
+    total += Number(t.jp);
+    tbody.innerHTML += `
+      <tr>
+        <td>${i+1}</td>
+        <td>${t.jenis}</td>
+        <td>${t.uraian}</td>
+        <td>${t.kelas || '-'}</td>
+        <td>${t.jp}</td>
+      </tr>`;
+  });
+}
 
-  window.location.href = "hasil.html";
+document.getElementById("totalJP").innerText = total;
+
+function cetakSK(){
+  window.open("cetak.html?username=" + encodeURIComponent(username), "_blank");
 }
 </script>
 
