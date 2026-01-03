@@ -6,6 +6,74 @@
 <title>Rincian Tugas Guru</title>
 
 <style>
+  /* === ANIMASI LOGO === */
+
+/* animasi masuk */
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* animasi melayang halus */
+@keyframes floatLogo {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* terapkan ke logo */
+.header img {
+  height: 56px;
+  max-width: 70px;
+  object-fit: contain;
+  display: block;
+
+  /* animasi */
+  animation:
+    logoIn 0.8s ease-out forwards,
+    floatLogo 4s ease-in-out infinite;
+
+  transition: transform 0.3s ease;
+}
+
+/* jeda beda antara kiri & kanan */
+.header img:first-child {
+  animation-delay: 0.2s, 1s;
+}
+
+.header img:last-child {
+  animation-delay: 0.4s, 1.5s;
+}
+
+/* efek sentuh / hover */
+.header img:hover {
+  transform: scale(1.1) rotate(-2deg);
+}
+@keyframes titleFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header-center h2 {
+  animation: titleFade 0.8s ease-out forwards;
+}
+
+.header-center p {
+  animation: titleFade 1s ease-out forwards;
+}
+
 :root{
   --primary:#1e3c72;
   --bg:#f4f6fb;
