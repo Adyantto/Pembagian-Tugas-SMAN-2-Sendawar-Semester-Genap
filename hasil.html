@@ -8,89 +8,99 @@
 <style>
 body{
   margin:0;
-  background:#f1f5f9;
   font-family:Segoe UI, sans-serif;
+  background:#f1f5f9;
 }
 
 header{
   background:linear-gradient(135deg,#1e3a8a,#38bdf8);
-  color:#fff;
-  padding:24px 16px;
+  color:white;
+  padding:32px 16px;
   text-align:center;
 }
 
-header h2{
+header h1{
   margin:0;
+  font-size:1.6rem;
 }
 
 header p{
-  margin:6px 0 0;
+  margin-top:8px;
   font-size:.95rem;
+  opacity:.9;
 }
 
-main{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
+.container{
+  max-width:1000px;
+  margin:30px auto;
+  padding:0 16px;
 }
 
-.section{
-  background:#fff;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
-  animation:fade .6s ease;
+.card{
+  background:white;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  animation:fadeUp .6s ease;
 }
 
-@keyframes fade{
+@keyframes fadeUp{
   from{opacity:0;transform:translateY(20px)}
-  to{opacity:1}
+  to{opacity:1;transform:translateY(0)}
 }
 
-.section h3{
+.card h2{
   margin-top:0;
   color:#1e3a8a;
 }
 
-.item{
-  border-bottom:1px dashed #cbd5f5;
-  padding:8px 0;
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:16px;
 }
 
-.item:last-child{
-  border-bottom:none;
+th,td{
+  padding:12px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+  font-size:.95rem;
 }
 
-.item span{
-  display:block;
-  font-size:.9rem;
-  color:#475569;
+th{
+  background:#f8fafc;
+  color:#1e3a8a;
 }
 
-.jp{
-  font-weight:bold;
+.total{
+  margin-top:14px;
+  font-weight:600;
   color:#0f172a;
 }
 
 .actions{
-  text-align:center;
-  margin:30px 0;
+  margin-top:28px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
 }
 
 button{
-  padding:14px 22px;
+  padding:14px 20px;
   border:none;
   border-radius:14px;
-  background:#22c55e;
-  color:#fff;
   font-size:1rem;
   cursor:pointer;
 }
 
-.back{
+.btn-back{
   background:#64748b;
-  margin-right:10px;
+  color:white;
+}
+
+.btn-print{
+  background:#22c55e;
+  color:white;
 }
 </style>
 </head>
@@ -98,62 +108,87 @@ button{
 <body>
 
 <header>
-  <h2 id="namaGuru">Nama Guru</h2>
+  <h1 id="namaGuru">Nama Guru</h1>
   <p>Rincian Tugas Semester Genap Tahun Pelajaran 2025 / 2026</p>
 </header>
 
-<main>
+<div class="container">
+  <div class="card">
+    <h2>Tugas Mengajar & Tugas Tambahan</h2>
 
-  <div class="section">
-    <h3>Tugas Mengajar & Tugas Tambahan</h3>
-    <div id="daftarTugas"></div>
+    <div id="tabelTugas"></div>
+
+    <div class="actions">
+      <button class="btn-back" onclick="kembali()">Kembali</button>
+      <button class="btn-print" onclick="cetakSK()">Cetak Lampiran SK</button>
+    </div>
   </div>
+</div>
 
-  <div class="actions">
-    <button class="back" onclick="kembali()">Kembali</button>
-    <button onclick="cetak()">Cetak Lampiran SK</button>
-  </div>
-
-</main>
-
-<!-- DATABASE -->
+<!-- ===== DATABASE ===== -->
+<script src="data/master-guru.js"></script>
 <script src="data/tugas-mengajar.js"></script>
 
 <script>
-const username = localStorage.getItem("usernameAktif");
-const nama = localStorage.getItem("namaGuru");
+const usernameAktif = localStorage.getItem("usernameAktif");
+const namaGuru = localStorage.getItem("namaGuru");
 
-if(!username || !nama){
-  alert("Silakan login kembali");
-  window.location.href="login.html";
+if(!usernameAktif){
+  window.location.href = "login.html";
 }
 
-document.getElementById("namaGuru").innerText = nama;
+// TAMPILKAN NAMA
+document.getElementById("namaGuru").innerText = namaGuru;
 
-const data = pembagianTugas.filter(t => t.username === username);
-const daftar = document.getElementById("daftarTugas");
+// FILTER DATA
+const dataGuru = tugasMengajar.filter(
+  d => d.username === usernameAktif
+);
 
-if(data.length === 0){
-  daftar.innerHTML = "<p>Tidak ada data tugas.</p>";
-}
+const container = document.getElementById("tabelTugas");
 
-data.forEach(t => {
-  const div = document.createElement("div");
-  div.className = "item";
-  div.innerHTML = `
-    <strong>${t.uraian}</strong>
-    ${t.kelas ? `<span>Kelas: ${t.kelas}</span>` : ""}
-    <span class="jp">Jumlah JP: ${t.jp}</span>
+if(dataGuru.length === 0){
+  container.innerHTML = "<p>Data tugas belum tersedia.</p>";
+}else{
+  let totalJP = 0;
+
+  let html = `
+    <table>
+      <tr>
+        <th>No</th>
+        <th>Tugas / Mata Pelajaran</th>
+        <th>Kelas</th>
+        <th>JP</th>
+      </tr>
   `;
-  daftar.appendChild(div);
-});
 
-function cetak(){
-  window.location.href = "cetak.html";
+  dataGuru.forEach((d,i)=>{
+    totalJP += d.jp;
+    html += `
+      <tr>
+        <td>${i+1}</td>
+        <td>${d.mapel}</td>
+        <td>${d.kelas || "-"}</td>
+        <td>${d.jp}</td>
+      </tr>
+    `;
+  });
+
+  html += `
+    </table>
+    <div class="total">Total Beban Tugas: ${totalJP} JP</div>
+  `;
+
+  container.innerHTML = html;
 }
 
+// NAVIGASI
 function kembali(){
   window.location.href = "login.html";
+}
+
+function cetakSK(){
+  window.location.href = "cetak-sk.html";
 }
 </script>
 
