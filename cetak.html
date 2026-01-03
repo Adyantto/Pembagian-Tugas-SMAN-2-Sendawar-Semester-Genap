@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rincian Tugas Guru | SMAN 2 Sendawar</title>
+
+<style>
+body{
+  margin:0;
+  background:#f1f5f9;
+  font-family:Segoe UI, sans-serif;
+}
+
+header{
+  background:linear-gradient(135deg,#1e3a8a,#38bdf8);
+  color:#fff;
+  padding:24px 16px;
+  text-align:center;
+}
+
+header h2{
+  margin:0;
+}
+
+header p{
+  margin:6px 0 0;
+  font-size:.95rem;
+}
+
+main{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+.section{
+  background:#fff;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  animation:fade .6s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1}
+}
+
+.section h3{
+  margin-top:0;
+  color:#1e3a8a;
+}
+
+.item{
+  border-bottom:1px dashed #cbd5f5;
+  padding:8px 0;
+}
+
+.item:last-child{
+  border-bottom:none;
+}
+
+.item span{
+  display:block;
+  font-size:.9rem;
+  color:#475569;
+}
+
+.jp{
+  font-weight:bold;
+  color:#0f172a;
+}
+
+.actions{
+  text-align:center;
+  margin:30px 0;
+}
+
+button{
+  padding:14px 22px;
+  border:none;
+  border-radius:14px;
+  background:#22c55e;
+  color:#fff;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+.back{
+  background:#64748b;
+  margin-right:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2 id="namaGuru">Nama Guru</h2>
+  <p>Rincian Tugas Semester Genap Tahun Pelajaran 2025 / 2026</p>
+</header>
+
+<main>
+
+  <div class="section">
+    <h3>Tugas Mengajar & Tugas Tambahan</h3>
+    <div id="daftarTugas"></div>
+  </div>
+
+  <div class="actions">
+    <button class="back" onclick="kembali()">Kembali</button>
+    <button onclick="cetak()">Cetak Lampiran SK</button>
+  </div>
+
+</main>
+
+<!-- DATABASE -->
+<script src="data/tugas-mengajar.js"></script>
+
+<script>
+const username = localStorage.getItem("usernameAktif");
+const nama = localStorage.getItem("namaGuru");
+
+if(!username || !nama){
+  alert("Silakan login kembali");
+  window.location.href="login.html";
+}
+
+document.getElementById("namaGuru").innerText = nama;
+
+const data = pembagianTugas.filter(t => t.username === username);
+const daftar = document.getElementById("daftarTugas");
+
+if(data.length === 0){
+  daftar.innerHTML = "<p>Tidak ada data tugas.</p>";
+}
+
+data.forEach(t => {
+  const div = document.createElement("div");
+  div.className = "item";
+  div.innerHTML = `
+    <strong>${t.uraian}</strong>
+    ${t.kelas ? `<span>Kelas: ${t.kelas}</span>` : ""}
+    <span class="jp">Jumlah JP: ${t.jp}</span>
+  `;
+  daftar.appendChild(div);
+});
+
+function cetak(){
+  window.location.href = "cetak.html";
+}
+
+function kembali(){
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
