@@ -30,7 +30,6 @@ body{
   justify-content:center;
   align-items:center;
   padding:16px;
-  transition:.3s;
 }
 
 /* CARD */
@@ -43,7 +42,7 @@ body{
   box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
 
-/* HEADER */
+/* HEADER (LAYAR SAJA) */
 .header{
   display:flex;
   align-items:center;
@@ -52,26 +51,16 @@ body{
   margin-bottom:12px;
 }
 .header img{
-  height:58px;
+  height:56px;
   max-width:72px;
   object-fit:contain;
-  animation:
-    logoIn .8s ease-out forwards,
-    floatLogo 4s ease-in-out infinite;
-}
-.header img:first-child{animation-delay:.2s,1s}
-.header img:last-child{animation-delay:.4s,1.4s}
-
-@keyframes logoIn{
-  from{opacity:0;transform:translateY(-8px) scale(.95)}
-  to{opacity:1;transform:none}
+  animation:floatLogo 4s ease-in-out infinite;
 }
 @keyframes floatLogo{
   0%{transform:translateY(0)}
   50%{transform:translateY(-6px)}
   100%{transform:translateY(0)}
 }
-
 .header-center{
   text-align:center;
   flex:1;
@@ -79,20 +68,10 @@ body{
 .header-center h2{
   margin:0;
   color:var(--primary);
-  font-size:22px;
 }
 .header-center p{
   margin:4px 0 0;
   font-size:14px;
-}
-
-/* TOGGLE */
-.toggle{
-  text-align:right;
-  font-size:13px;
-  cursor:pointer;
-  color:var(--primary);
-  margin-bottom:6px;
 }
 
 /* FORM */
@@ -102,9 +81,7 @@ input,button{
   font-size:15px;
   border-radius:12px;
 }
-input{
-  border:1px solid #cbd5e1;
-}
+input{border:1px solid #cbd5e1}
 button{
   margin-top:10px;
   border:none;
@@ -113,26 +90,15 @@ button{
   font-weight:600;
   cursor:pointer;
 }
-button:hover{opacity:.9}
 
-/* RESULT */
-.result{
-  display:none;
-  margin-top:18px;
-  animation:fadeUp .4s ease;
-}
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:none}
-}
-
+/* HASIL */
+.result{display:none;margin-top:18px}
 .section{
   margin-top:14px;
   font-weight:600;
   color:var(--primary);
 }
-ul{margin:6px 0 0 18px;padding:0}
-
+ul{margin:6px 0 0 18px}
 .total{
   background:rgba(30,60,114,.1);
   padding:12px;
@@ -142,7 +108,7 @@ ul{margin:6px 0 0 18px;padding:0}
   text-align:center;
 }
 
-/* MESSAGE */
+/* PESAN */
 .message{
   background:rgba(30,60,114,.06);
   border-left:4px solid var(--primary);
@@ -163,28 +129,34 @@ ul{margin:6px 0 0 18px;padding:0}
   text-align:center;
   color:#dc2626;
   margin-top:10px;
-  font-size:14px;
 }
 
-/* PRINT */
+/* =========================
+   MODE CETAK (KHUSUS)
+   ========================= */
 @media print{
   body{background:white}
-  input,button,.toggle{display:none}
+  input,button,.header{display:none}
   .card{
     box-shadow:none;
-    position:relative;
+    padding-top:0;
   }
-  .card::after{
-    content:"SMAN 2 SENDAWAR";
-    position:absolute;
-    top:45%;
-    left:50%;
-    transform:translate(-50%,-50%) rotate(-30deg);
-    font-size:60px;
-    color:rgba(0,0,0,.08);
-    white-space:nowrap;
+
+  /* KOP SEKOLAH */
+  .kop-cetak{
+    display:block !important;
+    text-align:center;
+    margin-bottom:16px;
+  }
+  .kop-cetak img{
+    width:100%;
+    max-height:140px;
+    object-fit:contain;
   }
 }
+
+/* default: kop disembunyikan */
+.kop-cetak{display:none}
 </style>
 </head>
 
@@ -192,25 +164,26 @@ ul{margin:6px 0 0 18px;padding:0}
 
 <div class="card">
 
-  <!-- HEADER -->
+  <!-- HEADER UNTUK LAYAR -->
   <div class="header">
-    <img src="logo-provinsi.png.png" alt="Logo Provinsi Kalimantan Timur">
+    <img src="logo-provinsi.png" alt="Logo Provinsi">
     <div class="header-center">
       <h2>SMA Negeri 2 Sendawar</h2>
       <p>Rincian Tugas Guru<br>Semester Genap TP 2025/2026</p>
     </div>
-    <img src="logo-sman2.png.jpg" alt="Logo SMA Negeri 2 Sendawar">
+    <img src="logo-sman2.png" alt="Logo Sekolah">
   </div>
 
-  <div class="toggle" onclick="toggleMode()">🌙 / ☀️ Mode</div>
+  <!-- KOP KHUSUS CETAK -->
+  <div class="kop-cetak">
+    <img src="KOP SEKOLAH.png" alt="Kop SMA Negeri 2 Sendawar">
+  </div>
 
-  <!-- INPUT -->
   <input id="username" placeholder="Masukkan USERNAME (NIP tanpa spasi)">
   <button onclick="cariGuru()">Lihat Rincian Tugas</button>
 
   <div id="error" class="error"></div>
 
-  <!-- HASIL -->
   <div id="hasil" class="result">
     <p><b>Nama Guru</b><br><span id="nama"></span></p>
     <p><b>NIP</b><br><span id="nip"></span></p>
@@ -224,12 +197,9 @@ ul{margin:6px 0 0 18px;padding:0}
     <div id="totalJP" class="total"></div>
 
     <div class="message">
-      Terima kasih atas dedikasi, komitmen, dan kerja keras Bapak/Ibu Guru
-      dalam melaksanakan tugas pada semester sebelumnya.
-      <br><br>
-      Semoga pada <b>Semester Genap Tahun Pelajaran 2025/2026</b>,
-      Bapak/Ibu senantiasa diberikan kesehatan, kelancaran, dan semangat
-      dalam mengemban amanah serta tanggung jawab yang baru.
+      Terima kasih atas dedikasi dan kinerja Bapak/Ibu Guru
+      pada semester sebelumnya. Semoga amanah pada semester genap ini
+      membawa keberkahan dan pembelajaran yang bermakna.
       <div class="signature">
         — Tim Pengembang Kurikulum<br>
         SMAN 2 Sendawar
@@ -242,17 +212,14 @@ ul{margin:6px 0 0 18px;padding:0}
 </div>
 
 <script>
-/* =========================
-   DATA (SIAP DIISI LENGKAP)
-   ========================= */
 const dataGuru = [
   {
     id:"199411222024211014",
     nip:"19941122 202421 1 014",
     nama:"Adiyanto, S.Pd., Gr.",
     mengajar:[
-      {uraian:"PKWU – Kelas XII C, D, G, dan H", jp:8},
-      {uraian:"Kimia – Kelas XI A", jp:5}
+      {uraian:"PKWU – XII C, D, G, dan H", jp:8},
+      {uraian:"Kimia – XI A", jp:5}
     ],
     tambahan:[
       {uraian:"Kepala Perpustakaan", jp:12},
@@ -263,48 +230,36 @@ const dataGuru = [
   }
 ];
 
-let aktif=null;
-
-/* =========================
-   LOGIKA
-   ========================= */
 function cariGuru(){
   const u = username.value.trim();
   const g = dataGuru.find(x => x.id === u);
 
-  error.innerText = "";
-  hasil.style.display = "none";
+  error.innerText="";
+  hasil.style.display="none";
 
   if(!g){
-    error.innerText = "Data guru tidak ditemukan.";
+    error.innerText="Data guru tidak ditemukan.";
     return;
   }
 
-  aktif = g;
-  nama.innerText = g.nama;
-  nip.innerText = g.nip;
+  nama.innerText=g.nama;
+  nip.innerText=g.nip;
 
-  mengajar.innerHTML = "";
-  tambahan.innerHTML = "";
-
-  let total = 0;
+  mengajar.innerHTML="";
+  tambahan.innerHTML="";
+  let total=0;
 
   g.mengajar.forEach(x=>{
-    total += x.jp;
-    mengajar.innerHTML += `<li>${x.uraian} (${x.jp} JP)</li>`;
+    total+=x.jp;
+    mengajar.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
   });
-
   g.tambahan.forEach(x=>{
-    total += x.jp;
-    tambahan.innerHTML += `<li>${x.uraian} (${x.jp} JP)</li>`;
+    total+=x.jp;
+    tambahan.innerHTML+=`<li>${x.uraian} (${x.jp} JP)</li>`;
   });
 
-  totalJP.innerText = "Total Beban Kerja: " + total + " JP";
-  hasil.style.display = "block";
-}
-
-function toggleMode(){
-  document.body.classList.toggle("dark");
+  totalJP.innerText="Total Beban Kerja: "+total+" JP";
+  hasil.style.display="block";
 }
 </script>
 
