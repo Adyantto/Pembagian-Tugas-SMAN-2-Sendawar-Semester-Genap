@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rincian Tugas Guru | SMAN 2 Sendawar</title>
+<title>Rincian Pembagian Tugas Guru</title>
 
 <style>
 body{
@@ -33,7 +33,7 @@ header p{
 
 /* CONTAINER */
 .container{
-  max-width:1000px;
+  max-width:1100px;
   margin:30px auto;
   padding:0 16px;
 }
@@ -58,7 +58,7 @@ table{
   margin-top:16px;
 }
 
-th,td{
+th, td{
   padding:12px;
   border-bottom:1px solid #e5e7eb;
   text-align:left;
@@ -106,12 +106,12 @@ button{
 
 .btn-back{
   background:#64748b;
-  color:white;
+  color:#fff;
 }
 
 .btn-print{
   background:#22c55e;
-  color:white;
+  color:#fff;
 }
 </style>
 </head>
@@ -120,7 +120,7 @@ button{
 
 <header>
   <h1 id="namaGuru">Nama Guru</h1>
-  <p>Rincian Tugas Semester Genap Tahun Pelajaran 2025 / 2026</p>
+  <p>Rincian Pembagian Tugas Semester Genap Tahun Pelajaran 2025 / 2026</p>
 </header>
 
 <div class="container">
@@ -131,17 +131,17 @@ button{
 
     <div class="actions">
       <button class="btn-back" onclick="kembali()">Kembali</button>
-      <button class="btn-print" onclick="cetakSK()">Cetak Lampiran SK</button>
+      <button class="btn-print" onclick="cetak()">Cetak Lampiran SK</button>
     </div>
   </div>
 </div>
 
-<!-- ===== DATABASE (WAJIB SESUAI NAMA FILE & VARIABEL) ===== -->
+<!-- ===== DATABASE ===== -->
 <script src="data/master-guru.js"></script>
 <script src="data/pembagian-tugas.js"></script>
 
 <script>
-// ================== AMBIL DATA LOGIN ==================
+// ================= AMBIL DATA LOGIN =================
 const usernameAktif = localStorage.getItem("usernameAktif");
 const namaGuru = localStorage.getItem("namaGuru");
 
@@ -149,10 +149,10 @@ if(!usernameAktif){
   window.location.href = "login.html";
 }
 
-// TAMPILKAN NAMA
+// tampilkan nama guru
 document.getElementById("namaGuru").innerText = namaGuru;
 
-// ================== FILTER DATA ==================
+// ================= FILTER PEMBAGIAN TUGAS =================
 const dataGuru = pembagianTugas.filter(
   d => d.username === usernameAktif
 );
@@ -160,7 +160,7 @@ const dataGuru = pembagianTugas.filter(
 const container = document.getElementById("tabelTugas");
 
 if(dataGuru.length === 0){
-  container.innerHTML = "<p>Data tugas belum tersedia.</p>";
+  container.innerHTML = "<p><i>Data pembagian tugas belum tersedia.</i></p>";
 }else{
   let totalJP = 0;
 
@@ -168,8 +168,8 @@ if(dataGuru.length === 0){
     <table>
       <tr>
         <th>No</th>
-        <th>Jenis</th>
-        <th>Uraian Tugas</th>
+        <th>Jenis Tugas</th>
+        <th>Uraian</th>
         <th>Kelas</th>
         <th>JP</th>
       </tr>
@@ -177,6 +177,7 @@ if(dataGuru.length === 0){
 
   dataGuru.forEach((d,i)=>{
     totalJP += d.jp;
+
     html += `
       <tr>
         <td>${i+1}</td>
@@ -200,13 +201,13 @@ if(dataGuru.length === 0){
   container.innerHTML = html;
 }
 
-// ================== NAVIGASI ==================
+// ================= NAVIGASI =================
 function kembali(){
   window.location.href = "login.html";
 }
 
-function cetakSK(){
-  window.location.href = "cetak-sk.html";
+function cetak(){
+  window.location.href = "cetak.html";
 }
 </script>
 
