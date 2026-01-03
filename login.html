@@ -31,7 +31,7 @@ body{
   margin-bottom:16px;
 }
 .logo img{ width:68px; }
-h2{ margin:8px 0; color:#1e3a8a; }
+h2{ color:#1e3a8a; }
 input{
   width:100%;
   padding:14px;
@@ -48,10 +48,12 @@ button{
   color:#fff;
   cursor:pointer;
 }
+button:hover{ background:#1e40af; }
 </style>
 </head>
 
 <body>
+
 <div class="card">
   <div class="logo">
     <img src="logo-provinsi.png">
@@ -61,15 +63,27 @@ button{
   <h2>Login Guru</h2>
   <p>Masukkan <b>NIP / Username</b></p>
 
-  <input id="inputUser" type="text">
+  <input id="usernameInput" type="text">
 
   <button onclick="login()">Lihat Rincian Tugas</button>
 </div>
 
+<!-- 🔴 WAJIB ADA & BENAR -->
 <script src="data/username.js"></script>
+
 <script>
 function login(){
-  const input = document.getElementById("inputUser").value.trim();
+  const input = document.getElementById("usernameInput").value.trim();
+
+  if(!input){
+    alert("Silakan masukkan NIP / Username");
+    return;
+  }
+
+  if(typeof dataUsername === "undefined"){
+    alert("Database username tidak terbaca");
+    return;
+  }
 
   const guru = dataUsername.find(
     g => g.username === input || g.nama.toLowerCase() === input.toLowerCase()
@@ -86,5 +100,6 @@ function login(){
   window.location.href = "hasil.html";
 }
 </script>
+
 </body>
 </html>
