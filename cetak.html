@@ -3,158 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rincian Tugas Guru | SMAN 2 Sendawar</title>
+<title>Lampiran SK Pembagian Tugas Guru</title>
 
 <style>
 body{
   margin:0;
+  font-family:"Times New Roman", serif;
   background:#f1f5f9;
-  font-family:Segoe UI, sans-serif;
 }
 
-header{
-  background:linear-gradient(135deg,#1e3a8a,#38bdf8);
-  color:#fff;
-  padding:24px 16px;
-  text-align:center;
-}
-
-header h2{
-  margin:0;
-}
-
-header p{
-  margin:6px 0 0;
-  font-size:.95rem;
-}
-
-main{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
-}
-
-.section{
+/* AREA CETAK */
+.page{
+  width:210mm;
+  min-height:297mm;
   background:#fff;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
-  animation:fade .6s ease;
+  margin:20px auto;
+  padding:20mm;
+  box-shadow:0 0 10px rgba(0,0,0,.2);
 }
 
-@keyframes fade{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1}
-}
-
-.section h3{
-  margin-top:0;
-  color:#1e3a8a;
-}
-
-.item{
-  border-bottom:1px dashed #cbd5f5;
-  padding:8px 0;
-}
-
-.item:last-child{
-  border-bottom:none;
-}
-
-.item span{
-  display:block;
-  font-size:.9rem;
-  color:#475569;
-}
-
-.jp{
-  font-weight:bold;
-  color:#0f172a;
-}
-
-.actions{
+/* KOP */
+.kop{
   text-align:center;
-  margin:30px 0;
+  margin-bottom:16px;
 }
 
-button{
-  padding:14px 22px;
-  border:none;
-  border-radius:14px;
-  background:#22c55e;
-  color:#fff;
-  font-size:1rem;
-  cursor:pointer;
+.kop img{
+  width:100%;
+  max-height:120px;
+  object-fit:contain;
 }
 
-.back{
-  background:#64748b;
-  margin-right:10px;
+/* JUDUL */
+.judul{
+  text-align:center;
+  margin-top:10px;
+}
+
+.judul h3{
+  margin:6px 0;
+  text-decoration:underline;
+}
+
+.judul p{
+  margin:2px 0;
+}
+
+/* IDENTITAS */
+.identitas{
+  margin-top:18px;
+  margin-bottom:12px;
+}
+
+.identitas table{
+  width:100%;
+}
+
+.identitas td{
+  padding:4px 0;
+}
+
+/* TABEL */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  font-size:12pt;
+}
+
+th, td{
+  border:1px solid #000;
+  padding:6px;
+  vertical-align:top;
+}
+
+th{
+  text-align:center;
+}
+
+/* SUBTOTAL */
+.subtotal{
+  margin-top:10px;
+  font-weight:bold;
+}
+
+/* TTD */
+.ttd{
+  margin-top:40px;
+  width:100%;
+}
+
+.ttd .kanan{
+  width:40%;
+  float:right;
+  text-align:center;
+}
+
+.clear{
+  clear:both;
+}
+
+/* CETAK */
+@media print{
+  body{
+    background:#fff;
+  }
+  .page{
+    box-shadow:none;
+    margin:0;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h2 id="namaGuru">Nama Guru</h2>
-  <p>Rincian Tugas Semester Genap Tahun Pelajaran 2025 / 2026</p>
-</header>
+<div class="page">
 
-<main>
-
-  <div class="section">
-    <h3>Tugas Mengajar & Tugas Tambahan</h3>
-    <div id="daftarTugas"></div>
+  <!-- KOP -->
+  <div class="kop">
+    <img src="KOP SEKOLAH.png" alt="Kop Sekolah">
   </div>
 
-  <div class="actions">
-    <button class="back" onclick="kembali()">Kembali</button>
-    <button onclick="cetak()">Cetak Lampiran SK</button>
+  <!-- JUDUL -->
+  <div class="judul">
+    <h3>LAMPIRAN SURAT KEPUTUSAN</h3>
+    <p>Nomor : 400.3.8/ ............ /SMAN 2 SDWR/2025</p>
+    <p>Tentang Pembagian Tugas Guru</p>
+    <p>Semester Genap Tahun Pelajaran 2025 / 2026</p>
   </div>
 
-</main>
+  <!-- IDENTITAS -->
+  <div class="identitas">
+    <table>
+      <tr>
+        <td width="30%">Nama Guru</td>
+        <td width="5%">:</td>
+        <td id="namaGuru">-</td>
+      </tr>
+      <tr>
+        <td>NIP</td>
+        <td>:</td>
+        <td id="nipGuru">-</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TABEL TUGAS -->
+  <table>
+    <thead>
+      <tr>
+        <th width="5%">No</th>
+        <th width="15%">Jenis Tugas</th>
+        <th width="40%">Uraian Tugas</th>
+        <th width="25%">Kelas</th>
+        <th width="10%">JP</th>
+      </tr>
+    </thead>
+    <tbody id="tabelCetak">
+    </tbody>
+  </table>
+
+  <!-- SUBTOTAL -->
+  <div class="subtotal" id="subtotalJP"></div>
+
+  <!-- TTD -->
+  <div class="ttd">
+    <div class="kanan">
+      <p>Sendawar, 5 Januari 2026</p>
+      <p>Kepala SMA Negeri 2 Sendawar</p>
+      <br><br><br>
+      <p><b>Fardinandus Erikson, S.Fil</b><br>
+      NIP. 19691010 200801 1 026</p>
+    </div>
+    <div class="clear"></div>
+  </div>
+
+</div>
 
 <!-- DATABASE -->
-<script src="data/tugas-mengajar.js"></script>
+<script src="data/pembagian-tugas.js"></script>
 
 <script>
-const username = localStorage.getItem("usernameAktif");
-const nama = localStorage.getItem("namaGuru");
+// ================= DATA LOGIN =================
+const usernameAktif = localStorage.getItem("usernameAktif");
+const namaGuru = localStorage.getItem("namaGuru");
 
-if(!username || !nama){
-  alert("Silakan login kembali");
-  window.location.href="login.html";
-}
-
-document.getElementById("namaGuru").innerText = nama;
-
-const data = pembagianTugas.filter(t => t.username === username);
-const daftar = document.getElementById("daftarTugas");
-
-if(data.length === 0){
-  daftar.innerHTML = "<p>Tidak ada data tugas.</p>";
-}
-
-data.forEach(t => {
-  const div = document.createElement("div");
-  div.className = "item";
-  div.innerHTML = `
-    <strong>${t.uraian}</strong>
-    ${t.kelas ? `<span>Kelas: ${t.kelas}</span>` : ""}
-    <span class="jp">Jumlah JP: ${t.jp}</span>
-  `;
-  daftar.appendChild(div);
-});
-
-function cetak(){
-  window.location.href = "cetak.html";
-}
-
-function kembali(){
+if(!usernameAktif){
+  alert("Data login tidak ditemukan");
   window.location.href = "login.html";
 }
+
+// tampilkan identitas
+document.getElementById("namaGuru").innerText = namaGuru;
+document.getElementById("nipGuru").innerText = usernameAktif;
+
+// ================= FILTER DATA =================
+const dataGuru = pembagianTugas.filter(
+  d => d.username === usernameAktif
+);
+
+const tbody = document.getElementById("tabelCetak");
+
+let totalMengajar = 0;
+let totalTambahan = 0;
+
+dataGuru.forEach((d,i)=>{
+  if(d.jenis === "mengajar"){
+    totalMengajar += d.jp;
+  }else{
+    totalTambahan += d.jp;
+  }
+
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td align="center">${i+1}</td>
+    <td align="center">${d.jenis === "mengajar" ? "Mengajar" : "Tugas Tambahan"}</td>
+    <td>${d.uraian}</td>
+    <td>${d.kelas || "-"}</td>
+    <td align="center">${d.jp}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// ================= SUBTOTAL =================
+document.getElementById("subtotalJP").innerHTML = `
+  Jumlah JP Mengajar : ${totalMengajar} JP<br>
+  Jumlah JP Tugas Tambahan : ${totalTambahan} JP<br>
+  <b>Total Keseluruhan : ${totalMengajar + totalTambahan} JP</b>
+`;
+
+// AUTO PRINT (opsional, aktifkan kalau mau)
+// window.print();
 </script>
 
 </body>
