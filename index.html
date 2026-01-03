@@ -42,7 +42,7 @@ body{
   box-shadow:0 18px 35px rgba(0,0,0,.25);
 }
 
-/* HEADER */
+/* HEADER DUA LOGO */
 .header{
   display:flex;
   align-items:center;
@@ -50,7 +50,10 @@ body{
   gap:10px;
   margin-bottom:12px;
 }
-.header img{height:56px}
+.header img{
+  height:56px;
+  object-fit:contain;
+}
 .header-center{
   text-align:center;
   flex:1;
@@ -64,12 +67,13 @@ body{
   font-size:14px;
 }
 
-/* TOGGLE */
+/* TOGGLE MODE */
 .toggle{
   text-align:right;
   font-size:13px;
   cursor:pointer;
   color:var(--primary);
+  margin-bottom:6px;
 }
 
 /* FORM */
@@ -174,14 +178,14 @@ ul{margin:6px 0 0 18px}
 
 <div class="card">
 
-  <!-- HEADER -->
+  <!-- HEADER DENGAN LOGO -->
   <div class="header">
     <img src="logo-provinsi.png" alt="Logo Provinsi">
     <div class="header-center">
       <h2>SMA Negeri 2 Sendawar</h2>
-      <p>Rincian Tugas Guru<br>Semester Genap 2025/2026</p>
+      <p>Rincian Tugas Guru<br>Semester Genap Tahun Pelajaran 2025/2026</p>
     </div>
-    <img src="logo-sman2.png" alt="Logo Sekolah">
+    <img src="logo-sman2.png" alt="Logo SMA Negeri 2 Sendawar">
   </div>
 
   <div class="toggle" onclick="toggleMode()">🌙 / ☀️ Mode</div>
@@ -204,10 +208,10 @@ ul{margin:6px 0 0 18px}
     <div id="totalJP" class="total"></div>
 
     <div class="message">
-      Terima kasih atas dedikasi dan kinerja Bapak/Ibu Guru
+      Terima kasih atas dedikasi dan kerja keras Bapak/Ibu Guru
       pada semester sebelumnya.  
       Semoga amanah pada semester genap ini
-      membawa keberkahan dan pembelajaran bermakna.
+      membawa keberkahan dan pembelajaran yang bermakna.
       <div class="signature">
         — Tim Pengembang Kurikulum<br>SMAN 2 Sendawar
       </div>
