@@ -26,7 +26,6 @@ body{
   font-size:15px;
   opacity:.9;
 }
-
 .container{
   max-width:900px;
   margin:-40px auto 40px;
@@ -35,14 +34,12 @@ body{
   padding:24px;
   box-shadow:0 15px 40px rgba(0,0,0,.15);
 }
-
 .section-title{
   font-size:20px;
   font-weight:600;
   color:#1e3c72;
   margin-bottom:16px;
 }
-
 table{
   width:100%;
   border-collapse:collapse;
@@ -57,12 +54,10 @@ th{
   background:#f8fafc;
   color:#1e293b;
 }
-
 .total{
   font-weight:bold;
   background:#f0fdf4;
 }
-
 .actions{
   display:flex;
   gap:12px;
@@ -82,6 +77,12 @@ button{
 .print{
   background:#22c55e;
   color:#fff;
+}
+.print.wali{
+  background:#0ea5e9;
+}
+.print.projek{
+  background:#6366f1;
 }
 </style>
 </head>
@@ -120,8 +121,17 @@ button{
     <button class="back" onclick="window.location.href='login.html'">
       Kembali
     </button>
+
     <button class="print" onclick="cetakSK()">
-      Cetak Lampiran SK
+      Cetak Lampiran SK Utama
+    </button>
+
+    <button class="print wali" id="btnWaliKelas" onclick="cetakWaliKelas()">
+      Cetak SK Wali Kelas
+    </button>
+
+    <button class="print projek" id="btnKoorProjek" onclick="cetakKoorProjek()">
+      Cetak SK Koordinator Projek
     </button>
   </div>
 
@@ -132,23 +142,24 @@ button{
 <script src="data/pembagian-tugas.js"></script>
 
 <script>
+// ================= PARAMETER =================
 const params = new URLSearchParams(window.location.search);
 const username = params.get("username");
 
 if(!username){
   alert("Username tidak ditemukan");
-  window.location.href="login.html";
+  window.location.href = "login.html";
 }
 
-// Cari guru
+// ================= DATA GURU =================
 const guru = masterGuru.find(g => g.username === username);
 document.getElementById("namaGuru").innerText = guru ? guru.nama : "Guru";
 
-// Filter tugas
+// ================= DATA TUGAS =================
 const dataTugas = pembagianTugas.filter(t => t.username === username);
 
 const tbody = document.getElementById("tugasBody");
-let total = 0;
+let totalJP = 0;
 
 if(dataTugas.length === 0){
   tbody.innerHTML = `
@@ -156,10 +167,11 @@ if(dataTugas.length === 0){
       <td colspan="5" style="text-align:center;color:#999">
         Data tugas belum tersedia
       </td>
-    </tr>`;
+    </tr>
+  `;
 }else{
   dataTugas.forEach((t,i)=>{
-    total += Number(t.jp);
+    totalJP += Number(t.jp);
     tbody.innerHTML += `
       <tr>
         <td>${i+1}</td>
@@ -167,14 +179,50 @@ if(dataTugas.length === 0){
         <td>${t.uraian}</td>
         <td>${t.kelas || '-'}</td>
         <td>${t.jp}</td>
-      </tr>`;
+      </tr>
+    `;
   });
 }
 
-document.getElementById("totalJP").innerText = total;
+document.getElementById("totalJP").innerText = totalJP;
 
+// ================= CEK TUGAS KHUSUS =================
+const punyaWaliKelas = dataTugas.some(t =>
+  t.jenis === "tambahan" && t.uraian.startsWith("Wali Kelas")
+);
+
+const punyaKoorProjek = dataTugas.some(t =>
+  t.jenis === "tambahan" && t.uraian.toLowerCase().includes("projek")
+);
+
+// Sembunyikan tombol jika tidak ada tugas
+if(!punyaWaliKelas){
+  document.getElementById("btnWaliKelas").style.display = "none";
+}
+if(!punyaKoorProjek){
+  document.getElementById("btnKoorProjek").style.display = "none";
+}
+
+// ================= FUNGSI CETAK =================
 function cetakSK(){
-  window.open("cetak.html?username=" + encodeURIComponent(username), "_blank");
+  window.open(
+    "cetak.html?username=" + encodeURIComponent(username),
+    "_blank"
+  );
+}
+
+function cetakWaliKelas(){
+  window.open(
+    "Wali-kelas.html?username=" + encodeURIComponent(username),
+    "_blank"
+  );
+}
+
+function cetakKoorProjek(){
+  window.open(
+    "Koor-projek.html?username=" + encodeURIComponent(username),
+    "_blank"
+  );
 }
 </script>
 
