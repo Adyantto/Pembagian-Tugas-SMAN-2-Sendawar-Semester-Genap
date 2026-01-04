@@ -22,35 +22,33 @@ body{
 /* KOP */
 .kop img{
   width:100%;
+  margin-bottom:14px;
 }
 
 /* JUDUL */
 .judul{
   text-align:center;
-  margin:18px 0;
+  margin-bottom:18px;
 }
 .judul h3{
   margin:6px 0;
-  font-weight:bold;
-  text-decoration:none;
+  text-decoration:underline;
 }
-.nomor{
-  margin:12px 0;
+.judul .nomor{
+  margin-bottom:20px;
   font-size:12pt;
 }
-.tentang{
+.judul .tentang{
   font-size:12pt;
-  line-height:1.5;
-  margin-top:8px;
 }
 
 /* IDENTITAS */
 .identitas{
-  margin-top:40px;
-  font-size:12pt;
+  margin-bottom:14px;
 }
 .identitas td{
-  padding:4px 0;
+  padding:3px 0;
+  font-size:12pt;
 }
 
 /* SUB JUDUL */
@@ -65,6 +63,7 @@ table{
   width:100%;
   border-collapse:collapse;
   font-size:12pt;
+  margin-bottom:8px;
 }
 th, td{
   border:1px solid #000;
@@ -72,18 +71,32 @@ th, td{
 }
 th{
   text-align:center;
-  font-weight:bold;
 }
 
 /* SUBTOTAL */
 .subtotal{
-  margin-top:6px;
+  margin-bottom:6px;
   font-weight:bold;
+  font-size:12pt;
+}
+
+/* CATATAN */
+.catatan{
+  font-size:11pt;
+  margin-top:10px;
+  line-height:1.4;
+}
+.catatan b{
+  font-weight:bold;
+}
+.catatan ol{
+  margin:6px 0 0 18px;
+  padding:0;
 }
 
 /* TTD */
 .ttd{
-  margin-top:50px;
+  margin-top:28px;
 }
 .ttd .kanan{
   width:40%;
@@ -92,12 +105,6 @@ th{
 }
 .clear{clear:both}
 
-/* PAGE BREAK */
-.halaman-depan{
-  page-break-after:always;
-}
-
-/* PRINT */
 @media print{
   body{background:#fff}
   .page{margin:0}
@@ -107,35 +114,28 @@ th{
 
 <body>
 
-<!-- =====================================================
-     HALAMAN 1 : HALAMAN DEPAN LAMPIRAN
-===================================================== -->
-<div class="page halaman-depan">
+<div class="page">
 
+  <!-- KOP -->
   <div class="kop">
     <img src="KOP SEKOLAH.png" alt="KOP SEKOLAH">
   </div>
 
-  <hr style="border:1px solid #000; margin:10px 0 18px;">
-
+  <!-- JUDUL -->
   <div class="judul">
-    <h3>LAMPIRAN</h3>
-    <h3>SURAT KEPUTUSAN KEPALA SMA NEGERI 2 SENDAWAR</h3>
+    <h3>LAMPIRAN SURAT KEPUTUSAN</h3>
 
     <div class="nomor">
-      NOMOR : 400.3.8/ __________ / SMAN 2 SDWR / 2026
+      Nomor : 400.3.8/ __________ / SMAN 2 SDWR / 2026
     </div>
 
-    <div style="font-weight:bold; margin:12px 0;">TENTANG</div>
-
     <div class="tentang">
-      STRUKTUR ORGANISASI DAN PEMBAGIAN TUGAS GURU<br>
-      DALAM PROSES BELAJAR MENGAJAR SERTA BIMBINGAN<br>
-      PADA SEMESTER GENAP<br>
-      TAHUN PELAJARAN 2025 / 2026
+      Tentang Pembagian Tugas Guru<br>
+      Semester Genap Tahun Pelajaran 2025 / 2026
     </div>
   </div>
 
+  <!-- IDENTITAS -->
   <table class="identitas">
     <tr>
       <td width="30%">Nama Guru</td>
@@ -148,31 +148,6 @@ th{
       <td id="nipGuru"></td>
     </tr>
   </table>
-
-  <div class="ttd">
-    <div class="kanan">
-      <p>Ditetapkan di : Sendawar</p>
-      <p>Pada Tanggal : 05 Januari 2026</p>
-      <br>
-      <p>Kepala SMA Negeri 2 Sendawar</p>
-      <br><br><br>
-      <p><b>Fardinandus Erikson, S.Fil</b><br>
-      Penata Tk. I<br>
-      NIP. 19691010 200801 1 026</p>
-    </div>
-    <div class="clear"></div>
-  </div>
-
-</div>
-
-<!-- =====================================================
-     HALAMAN 2 : RINCIAN PEMBAGIAN TUGAS
-===================================================== -->
-<div class="page">
-
-  <div class="judul">
-    <h3>RINCIAN PEMBAGIAN TUGAS GURU</h3>
-  </div>
 
   <!-- TUGAS MENGAJAR -->
   <div class="subjudul">A. Tugas Mengajar</div>
@@ -203,11 +178,45 @@ th{
   </table>
   <div class="subtotal" id="totalTambahan"></div>
 
+  <!-- CATATAN -->
+  <div class="catatan">
+    <b>Catatan:</b>
+    <ol>
+      <li>
+        <b>Tugas Tambahan Utama (TTU)</b> merupakan tugas tambahan yang bersifat utama
+        dan diperhitungkan sebagai ekuivalensi beban kerja guru.
+      </li>
+      <li>
+        Guru yang memperoleh <b>TTU</b> tidak lagi diperhitungkan
+        <b>Tugas Tambahan Lain Ekuivalensi (TTLE)</b>, untuk menghindari penghitungan
+        beban kerja ganda.
+      </li>
+      <li>
+        <b>Tugas Tambahan Lain Ekuivalensi (TTLE)</b> hanya berlaku bagi guru tanpa TTU
+        dengan batas maksimal <b>6 (enam) jam pelajaran per minggu</b>.
+      </li>
+      <li>
+        Tugas sebagai <b>Guru Wali</b> merupakan tugas pokok guru, bukan termasuk TTU
+        maupun TTLE, dan diperhitungkan sebagai bagian dari beban kerja guru.
+      </li>
+    </ol>
+  </div>
+
+  <!-- TTD -->
+  <div class="ttd">
+    <div class="kanan">
+      <p>Sendawar, 05 Januari 2026</p>
+      <p>Kepala SMA Negeri 2 Sendawar</p>
+      <br><br><br>
+      <p><b>Fardinandus Erikson, S.Fil</b><br>
+      NIP. 19691010 200801 1 026</p>
+    </div>
+    <div class="clear"></div>
+  </div>
+
 </div>
 
-<!-- =====================================================
-     SCRIPT DATA
-===================================================== -->
+<!-- DATABASE -->
 <script src="data/username.js"></script>
 <script src="data/pembagian-tugas.js"></script>
 
