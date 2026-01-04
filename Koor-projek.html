@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Lampiran SK Wali Kelas</title>
+<title>Lampiran Surat Keputusan Koordinator Projek</title>
 
 <style>
 /* ================= A4 ================= */
@@ -30,7 +30,7 @@ body{
   text-align:center;
   font-weight:bold;
   line-height:1.6;
-  margin-bottom:18px;
+  margin-bottom:20px;
   font-size:12pt;
 }
 
@@ -42,8 +42,8 @@ table{
 
 th, td{
   border:1px solid #000;
-  padding:6px 6px;
-  white-space:nowrap; /* PENTING: 1 BARIS */
+  padding:6px;
+  white-space:nowrap; /* 1 baris */
 }
 
 th{
@@ -69,7 +69,6 @@ td{
   border:none;
   font-size:11pt;
 }
-
 </style>
 </head>
 
@@ -83,8 +82,10 @@ td{
 <!-- ================= JUDUL ================= -->
 <div class="judul">
   LAMPIRAN SURAT KEPUTUSAN KEPALA SMA NEGERI 2 SENDAWAR<br>
-  NOMOR : 400.3.8/708/SMAN 2 SDWR/2025<br>
-  TENTANG PENUGASAN WALI KELAS<br>
+  <br>
+  NOMOR : 400.3.8/709/SMAN 2 SDWR/2026<br>
+  <br>
+  TENTANG PENUGASAN KOORDINATOR PROJEK PEMBELAJARAN<br>
   SEMESTER GENAP TAHUN PELAJARAN 2025/2026
 </div>
 
@@ -98,7 +99,7 @@ td{
   <th class="tugas">Penugasan</th>
 </tr>
 </thead>
-<tbody id="dataWaliKelas"></tbody>
+<tbody id="dataKoorProjek"></tbody>
 </table>
 
 <!-- ================= TTD ================= -->
@@ -108,7 +109,8 @@ td{
 <td>
 Sendawar, 05 Januari 2026<br>
 Kepala SMA Negeri 2 Sendawar<br><br><br><br>
-<b>Fardinandus Erikson, S.Fil</b>
+<b>Fardinandus Erikson, S.Fil</b><br>
+NIP. 19691010 200801 1 026
 </td>
 </tr>
 </table>
@@ -118,28 +120,45 @@ Kepala SMA Negeri 2 Sendawar<br><br><br><br>
 <script src="data/pembagian-tugas.js"></script>
 
 <script>
-// ================= AMBIL DATA WALI KELAS =================
+// ===================================================
+// REGEX KOORDINATOR PROJEK
+// - Koordinator Projek
+// - Koor. Projek
+// ===================================================
+const regexProjek = /koor\.?\s*projek|koordinator\s*projek/i;
+
+// ===================================================
+// AMBIL DATA KOORDINATOR PROJEK
+// ===================================================
 let data = pembagianTugas.filter(t =>
   t.jenis === "tambahan" &&
-  t.uraian.startsWith("Wali Kelas")
+  regexProjek.test(t.uraian)
 );
 
-// ================= FUNGSI URUT KELAS =================
-const urutKelas = k => {
-  const mapTingkat = { "X":1, "XI":2, "XII":3 };
-  const p = k.replace("Wali Kelas","").trim().split(" ");
-  return (mapTingkat[p[0]] * 100) + (p[1].charCodeAt(0) - 64);
+// ===================================================
+// FUNGSI URUT KELAS (X A → XII H)
+// ===================================================
+const urutKelas = teks => {
+  const m = teks.match(/kelas\s+(xii|xi|x)\s+([a-h])/i);
+  if(!m) return 9999;
+
+  const mapTingkat = { x:1, xi:2, xii:3 };
+  return (mapTingkat[m[1].toLowerCase()] * 100) +
+         (m[2].toUpperCase().charCodeAt(0) - 64);
 };
 
-// SORT SESUAI X A → XII H
+// SORT
 data.sort((a,b)=> urutKelas(a.uraian) - urutKelas(b.uraian));
 
-// ================= TAMPILKAN =================
-const tbody = document.getElementById("dataWaliKelas");
+// ===================================================
+// TAMPILKAN DATA
+// ===================================================
+const tbody = document.getElementById("dataKoorProjek");
 let no = 1;
 
 data.forEach(item=>{
   const guru = masterGuru.find(g=>g.username===item.username) || {};
+
   tbody.innerHTML += `
     <tr>
       <td class="no">${no++}</td>
