@@ -6,33 +6,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ================= PENGATURAN KERTAS ================= */
+@page {
+  size: A4;
+  margin: 3cm 3cm 3cm 3cm;
+}
+
 body{
+  margin:0;
   font-family:"Times New Roman", serif;
   font-size:12pt;
-  margin:40px;
 }
-h2,h3{
+
+/* ================= KOP SEKOLAH ================= */
+.kop{
   text-align:center;
-  margin:4px 0;
+  border-bottom:3px solid #000;
+  padding-bottom:10px;
+  margin-bottom:20px;
 }
-h3{
-  font-weight:normal;
+.kop h1{
+  font-size:16pt;
+  margin:0;
+  font-weight:bold;
 }
+.kop h2{
+  font-size:14pt;
+  margin:2px 0;
+  font-weight:bold;
+}
+.kop p{
+  font-size:11pt;
+  margin:2px 0;
+}
+
+/* ================= JUDUL ================= */
+.judul{
+  text-align:center;
+  font-weight:bold;
+  margin-top:20px;
+  line-height:1.6;
+}
+
+/* ================= TABEL ================= */
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:25px;
+  margin-top:20px;
 }
-th,td{
+th, td{
   border:1px solid #000;
   padding:6px;
 }
 th{
   text-align:center;
+  font-weight:bold;
 }
 .center{
   text-align:center;
 }
+
+/* ================= TANDA TANGAN ================= */
 .footer{
   margin-top:40px;
   width:100%;
@@ -40,33 +74,47 @@ th{
 .footer td{
   border:none;
 }
+
 @media print{
-  body{ margin:30px; }
+  body{
+    margin:0;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<h2>LAMPIRAN SURAT KEPUTUSAN</h2>
-<h3>
-NOMOR : 400.3.8/708/SMAN 2 SDWR/2025<br>
-TENTANG PENUGASAN WALI KELAS<br>
-SEMESTER GENAP TAHUN PELAJARAN 2025/2026
-</h3>
+<!-- ================= KOP SEKOLAH ================= -->
+<div class="kop">
+  <h1>PEMERINTAH PROVINSI KALIMANTAN TIMUR</h1>
+  <h2>DINAS PENDIDIKAN DAN KEBUDAYAAN</h2>
+  <h2>SMA NEGERI 2 SENDAWAR</h2>
+  <p>Jl. Sendawar Raya, Kabupaten Kutai Barat, Kalimantan Timur</p>
+</div>
 
+<!-- ================= JUDUL ================= -->
+<div class="judul">
+  LAMPIRAN SURAT KEPUTUSAN KEPALA SMA NEGERI 2 SENDAWAR<br>
+  NOMOR : 400.3.8/708/SMAN 2 SDWR/2025<br>
+  TENTANG PENUGASAN WALI KELAS<br>
+  SEMESTER GENAP TAHUN PELAJARAN 2025/2026
+</div>
+
+<!-- ================= TABEL DATA ================= -->
 <table>
 <thead>
 <tr>
-  <th>No</th>
-  <th>Nama Guru</th>
-  <th>NIP</th>
-  <th>Penugasan</th>
+  <th style="width:5%">No</th>
+  <th style="width:35%">Nama Guru</th>
+  <th style="width:25%">NIP</th>
+  <th style="width:35%">Penugasan</th>
 </tr>
 </thead>
 <tbody id="dataWaliKelas"></tbody>
 </table>
 
+<!-- ================= TANDA TANGAN ================= -->
 <table class="footer">
 <tr>
 <td width="60%"></td>
@@ -78,28 +126,21 @@ Kepala SMA Negeri 2 Sendawar<br><br><br><br>
 </tr>
 </table>
 
-<!-- DATABASE -->
+<!-- ================= DATABASE ================= -->
 <script src="data/username.js"></script>
 <script src="data/pembagian-tugas.js"></script>
 
 <script>
 // ===================================================
-// PARAMETER
-// ===================================================
-const params = new URLSearchParams(window.location.search);
-const username = params.get("username");
-
-// ===================================================
-// FILTER DATA : HANYA WALI KELAS (BUKAN GURU WALI)
+// AMBIL DATA WALI KELAS (BUKAN GURU WALI)
 // ===================================================
 const dataWaliKelas = pembagianTugas.filter(t =>
   t.jenis === "tambahan" &&
-  t.uraian.startsWith("Wali Kelas") &&
-  (!username || t.username === username)
+  t.uraian.startsWith("Wali Kelas")
 );
 
 // ===================================================
-// TAMPILKAN DATA
+// TAMPILKAN KE TABEL
 // ===================================================
 const tbody = document.getElementById("dataWaliKelas");
 let no = 1;
@@ -107,8 +148,8 @@ let no = 1;
 if(dataWaliKelas.length === 0){
   tbody.innerHTML = `
     <tr>
-      <td colspan="4" class="center" style="color:#777">
-        Tidak terdapat penugasan Wali Kelas
+      <td colspan="4" class="center">
+        Tidak terdapat data penugasan Wali Kelas
       </td>
     </tr>
   `;
