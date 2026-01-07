@@ -2,8 +2,8 @@
    DATABASE PEMBINA EKSTRAKURIKULER
    SMA NEGERI 2 SENDAWAR
    Aturan:
-   - Pembina[0]  = Koordinator
-   - Pembina[1+] = Anggota
+   - koordinator : Pembina utama
+   - anggota     : Pembina pendamping
    ===================================================== */
 
 const dataEkskul = [
@@ -140,16 +140,17 @@ const dataEkskul = [
     anggota: [
       "Hasni Salondong, S.Pd., Gr.",
       "Natalia Tivo, S.Pd., Gr.",
-      "Fetrus Fredy, S.Pd., M.AP., Gr."
+      "Fetrus Fredy, S.Pd., M.AP., Gr.",
+      "Jasmir, S.Pd"
     ]
   },
 
   {
     no: 18,
-    nama: "—",
-    koordinator: "Jasmir, S.Pd",
+    nama: "Band",
+    koordinator: "Irwan Lejau, S.IP",
     anggota: [
-      "Irwan Lejau, S.IP"
+      "Yuvenalis Raga Gening, S.Ag., M.Th"
     ]
   }
 
