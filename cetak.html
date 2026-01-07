@@ -5,18 +5,22 @@
 <title>Lampiran SK Guru Piket</title>
 
 <style>
-/* ================= HALAMAN ================= */
+/* ================= GLOBAL ================= */
+@page{
+  size:A4;
+  margin:20mm;
+}
+
 body{
   margin:0;
   font-family:"Times New Roman", serif;
-  background:#fff;
 }
 
+/* ================= HALAMAN ================= */
 .page{
-  width:210mm;
-  height:297mm;
-  padding:20mm;
-  box-sizing:border-box;
+  min-height:257mm; /* 297 - margin atas bawah */
+  display:flex;
+  flex-direction:column;
 }
 
 /* ================= KOP ================= */
@@ -37,7 +41,6 @@ body{
 }
 .judul .nomor{
   font-size:12pt;
-  margin-bottom:4px;
 }
 .judul .tentang{
   font-size:12pt;
@@ -62,22 +65,20 @@ tr{
   page-break-inside:avoid;
 }
 
-/* ================= TTD ================= */
-.ttd{
-  margin-top:40mm;
+/* ================= FOOTER / TTD ================= */
+.footer{
+  margin-top:auto; /* INI KUNCINYA */
 }
-.ttd .kanan{
+.ttd{
   width:40%;
-  float:right;
+  margin-left:auto;
   text-align:center;
   font-size:12pt;
 }
-.clear{clear:both}
 
 /* ================= CETAK ================= */
 @media print{
   body{margin:0}
-  .page{page-break-after:always}
 }
 </style>
 </head>
@@ -87,12 +88,10 @@ tr{
 <!-- ================= HALAMAN 1 ================= -->
 <div class="page">
 
-  <!-- KOP -->
   <div class="kop">
     <img src="KOP SEKOLAH.png" alt="KOP SEKOLAH">
   </div>
 
-  <!-- JUDUL -->
   <div class="judul">
     <h3>LAMPIRAN SURAT KEPUTUSAN</h3>
     <div class="nomor">
@@ -106,7 +105,6 @@ tr{
     </div>
   </div>
 
-  <!-- TABEL -->
   <table>
     <thead>
       <tr>
@@ -120,11 +118,11 @@ tr{
 
 </div>
 
-<!-- ================= HALAMAN 2 (TTD SAJA) ================= -->
+<!-- ================= HALAMAN 2 ================= -->
 <div class="page">
 
-  <div class="ttd">
-    <div class="kanan">
+  <div class="footer">
+    <div class="ttd">
       <p>Ditetapkan di : Sendawar</p>
       <p>Pada Tanggal : 14 Juli 2025</p>
       <br>
@@ -134,18 +132,14 @@ tr{
       Penata Tk. I<br>
       NIP. 19691010 200801 1 026</p>
     </div>
-    <div class="clear"></div>
   </div>
 
 </div>
 
-<!-- ================= DATABASE ================= -->
 <script src="data/guru-piket.js"></script>
-
 <script>
 const tbody = document.getElementById("tabelPiket");
 
-/* ISI TABEL GURU PIKET */
 dataGuruPiket.forEach(hari => {
   hari.jadwal.forEach((slot, index) => {
     tbody.insertAdjacentHTML("beforeend", `
