@@ -74,6 +74,7 @@ button{
 .print{ background:#22c55e; color:#fff; }
 .print.wali{ background:#0ea5e9; }
 .print.projek{ background:#6366f1; }
+.print.ekskul{ background:#16a34a; }
 </style>
 </head>
 
@@ -123,6 +124,11 @@ button{
     <button class="print projek" id="btnKoorProjek" onclick="cetakKoorProjek()">
       Cetak SK Koordinator Projek
     </button>
+
+    <!-- TOMBOL EKSKUL -->
+    <button class="print ekskul" id="btnEkskul" onclick="cetakEkskul()">
+      Cetak SK Ekstrakurikuler
+    </button>
   </div>
 
 </div>
@@ -130,6 +136,7 @@ button{
 <!-- DATABASE -->
 <script src="data/username.js"></script>
 <script src="data/pembagian-tugas.js"></script>
+<script src="data/ekstrakurikuler.js"></script>
 
 <script>
 // ================= PARAMETER =================
@@ -176,26 +183,35 @@ if(dataTugas.length === 0){
 
 document.getElementById("totalJP").innerText = totalJP;
 
-// ================= DETEKSI KHUSUS (FINAL) =================
-// 1. WALI KELAS (BUKAN Guru Wali)
+// ================= DETEKSI KHUSUS =================
+
+// 1. WALI KELAS
 const punyaWaliKelas = dataTugas.some(t =>
   t.jenis === "tambahan" &&
   t.uraian.startsWith("Wali Kelas")
 );
 
-// 2. KOORDINATOR PROJEK & KOOR. PROJEK (REGEX FINAL)
+// 2. KOORDINATOR PROJEK
 const regexProjek = /koor\.?\s*projek|koordinator\s*projek/i;
-
 const punyaKoorProjek = dataTugas.some(t =>
   t.jenis === "tambahan" && regexProjek.test(t.uraian)
 );
 
-// Sembunyikan tombol jika tidak ada tugas
+// 3. EKSTRAKURIKULER
+const punyaEkskul = dataEkskul.some(e =>
+  e.koordinator === guru.nama ||
+  e.anggota.includes(guru.nama)
+);
+
+// ================= KONTROL TOMBOL =================
 if(!punyaWaliKelas){
   document.getElementById("btnWaliKelas").style.display = "none";
 }
 if(!punyaKoorProjek){
   document.getElementById("btnKoorProjek").style.display = "none";
+}
+if(!punyaEkskul){
+  document.getElementById("btnEkskul").style.display = "none";
 }
 
 // ================= FUNGSI CETAK =================
@@ -216,6 +232,13 @@ function cetakWaliKelas(){
 function cetakKoorProjek(){
   window.open(
     "Koor-projek.html?username=" + encodeURIComponent(username),
+    "_blank"
+  );
+}
+
+function cetakEkskul(){
+  window.open(
+    "cetak-lampiran-ekskul.html?username=" + encodeURIComponent(username),
     "_blank"
   );
 }
