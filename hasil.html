@@ -75,6 +75,7 @@ button{
 .print.wali{ background:#0ea5e9; }
 .print.projek{ background:#6366f1; }
 .print.ekskul{ background:#16a34a; }
+.print.piket{ background:#f97316; }
 </style>
 </head>
 
@@ -125,9 +126,13 @@ button{
       Cetak SK Koordinator Projek
     </button>
 
-    <!-- TOMBOL EKSKUL -->
     <button class="print ekskul" id="btnEkskul" onclick="cetakEkskul()">
       Cetak SK Ekstrakurikuler
+    </button>
+
+    <!-- 🔹 TAMBAHAN SAJA: GURU PIKET -->
+    <button class="print piket" id="btnPiket" onclick="cetakPiket()">
+      Cetak SK Guru Piket
     </button>
   </div>
 
@@ -137,6 +142,7 @@ button{
 <script src="data/username.js"></script>
 <script src="data/pembagian-tugas.js"></script>
 <script src="data/ekstrakurikuler.js"></script>
+<script src="data/guru-piket.js"></script>
 
 <script>
 // ================= PARAMETER =================
@@ -185,62 +191,49 @@ document.getElementById("totalJP").innerText = totalJP;
 
 // ================= DETEKSI KHUSUS =================
 
-// 1. WALI KELAS
+// WALI KELAS
 const punyaWaliKelas = dataTugas.some(t =>
-  t.jenis === "tambahan" &&
-  t.uraian.startsWith("Wali Kelas")
+  t.jenis === "tambahan" && t.uraian.startsWith("Wali Kelas")
 );
 
-// 2. KOORDINATOR PROJEK
+// KOORDINATOR PROJEK
 const regexProjek = /koor\.?\s*projek|koordinator\s*projek/i;
 const punyaKoorProjek = dataTugas.some(t =>
   t.jenis === "tambahan" && regexProjek.test(t.uraian)
 );
 
-// 3. EKSTRAKURIKULER
+// EKSTRAKURIKULER
 const punyaEkskul = dataEkskul.some(e =>
   e.koordinator === guru.nama ||
   e.anggota.includes(guru.nama)
 );
 
+// GURU PIKET (TAMBAHAN SAJA)
+const punyaPiket = dataGuruPiket.some(h =>
+  h.jadwal.some(j => j.guru.includes(guru.nama))
+);
+
 // ================= KONTROL TOMBOL =================
-if(!punyaWaliKelas){
-  document.getElementById("btnWaliKelas").style.display = "none";
-}
-if(!punyaKoorProjek){
-  document.getElementById("btnKoorProjek").style.display = "none";
-}
-if(!punyaEkskul){
-  document.getElementById("btnEkskul").style.display = "none";
-}
+if(!punyaWaliKelas) document.getElementById("btnWaliKelas").style.display="none";
+if(!punyaKoorProjek) document.getElementById("btnKoorProjek").style.display="none";
+if(!punyaEkskul) document.getElementById("btnEkskul").style.display="none";
+if(!punyaPiket) document.getElementById("btnPiket").style.display="none";
 
 // ================= FUNGSI CETAK =================
 function cetakSK(){
-  window.open(
-    "cetak.html?username=" + encodeURIComponent(username),
-    "_blank"
-  );
+  window.open("cetak.html?username="+encodeURIComponent(username),"_blank");
 }
-
 function cetakWaliKelas(){
-  window.open(
-    "Wali-kelas.html?username=" + encodeURIComponent(username),
-    "_blank"
-  );
+  window.open("Wali-kelas.html?username="+encodeURIComponent(username),"_blank");
 }
-
 function cetakKoorProjek(){
-  window.open(
-    "Koor-projek.html?username=" + encodeURIComponent(username),
-    "_blank"
-  );
+  window.open("Koor-projek.html?username="+encodeURIComponent(username),"_blank");
 }
-
 function cetakEkskul(){
-  window.open(
-    "cetak-lampiran-ekskul.html?username=" + encodeURIComponent(username),
-    "_blank"
-  );
+  window.open("cetak-lampiran-ekskul.html?username="+encodeURIComponent(username),"_blank");
+}
+function cetakPiket(){
+  window.open("cetak-piket.html","_blank");
 }
 </script>
 
