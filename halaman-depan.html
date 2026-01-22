@@ -17,6 +17,11 @@ body{
   color:#000;
 }
 
+/* ====== PAGE BREAK ====== */
+.page-break{
+  page-break-before: always;
+}
+
 /* ====== KOP ====== */
 .kop img{
   width:100%;
@@ -41,6 +46,11 @@ body{
   font-weight:bold;
 }
 
+.tentang{
+  margin-top:6px;
+  line-height:1.4;
+}
+
 /* ====== ISI ====== */
 .isi{
   text-align:justify;
@@ -62,7 +72,7 @@ body{
 .ttd{
   width:40%;
   margin-left:auto;
-  margin-top:24px;
+  margin-top:40px;
   text-align:center;
 }
 
@@ -79,7 +89,6 @@ body{
   margin-top:60px;
 }
 
-/* ====== CETAK ====== */
 @media print{
   body{margin:0}
 }
@@ -88,27 +97,26 @@ body{
 
 <body>
 
-<!-- KOP -->
+<!-- ================= HALAMAN 1 ================= -->
+
 <div class="kop">
   <img src="KOP SEKOLAH.png">
 </div>
 
-<!-- JUDUL -->
 <div class="judul">
   <h3>SURAT KEPUTUSAN KEPALA SMA NEGERI 2 SENDAWAR</h3>
   <div class="nomor">
     NOMOR : 400.3.8/708/SMAN 2 SDWR/2026
   </div>
-  <h3>
+
+  <div class="tentang">
     TENTANG<br>
     STRUKTUR ORGANISASI DAN PEMBAGIAN TUGAS GURU<br>
     DALAM PROSES BELAJAR MENGAJAR SERTA BIMBINGAN<br>
-    PADA SEMESTER GENAP<br>
-    TAHUN PELAJARAN 2025 / 2026
-  </h3>
+    PADA SEMESTER GENAP TAHUN PELAJARAN 2025 / 2026
+  </div>
 </div>
 
-<!-- ISI -->
 <div class="isi">
 
 <table>
@@ -177,9 +185,16 @@ body{
 </tr>
 </table>
 
+<!-- ✅ KALIMAT PENUTUP HALAMAN 1 -->
+<p style="margin-top:20px;">
+  Demikian surat keputusan ini ditetapkan untuk dilaksanakan dengan penuh tanggung jawab sebagaimana mestinya.
+</p>
+
 </div>
 
-<!-- TTD -->
+<!-- ================= HALAMAN 2 ================= -->
+<div class="page-break"></div>
+
 <div class="ttd">
   <p>Ditetapkan di : Sendawar</p>
   <p>Pada tanggal : 05 Januari 2026</p>
