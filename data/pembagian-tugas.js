@@ -80,6 +80,7 @@ const pembagianTugas = [
   { username:"Fidelis Anastasius F.", jenis:"tambahan", uraian:"Guru Wali", kelas:"", jp:2 },,
   { username:"Fidelis Anastasius F.", jenis:"tambahan", uraian:"Koor. Projek Kelas X G", kelas:"", jp:2 },,
   { username:"Fidelis Anastasius F.", jenis:"tambahan", uraian:"Pembina Ekskul", kelas:"", jp:2 },,
+   { username:"Fidelis Anastasius F.", jenis:"tambahan", uraian:"Guru Piket", kelas:"", jp:1 },
 
   /* ========== FLORENS MARSE TANDI ========== */
   { username:"198004182022212015", jenis:"mengajar", uraian:"Ekonomi", kelas:"XI G–H", jp:10 },
