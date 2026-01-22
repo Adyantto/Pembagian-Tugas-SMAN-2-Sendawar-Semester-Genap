@@ -221,7 +221,7 @@ const pembagianTugas = [
 
   /* ========== NURMAYA SIHOTANG ========== */
   { username:"199108242025212058", jenis:"mengajar", uraian:"Sosiologi", kelas:"XI C–D", jp:10 },
-  { username:"199108242025212058", jenis:"mengajar", uraian:"Sosiologi", kelas:"X F–G", jp:9 },
+  { username:"199108242025212058", jenis:"mengajar", uraian:"Sosiologi", kelas:"X F–H", jp:9 },
   { username:"199108242025212058", jenis:"mengajar", uraian:"Sejarah", kelas:"X F–H", jp:6 },
   { username:"199108242025212058", jenis:"tambahan", uraian:"Guru Wali", kelas:"", jp:2 },,
 
