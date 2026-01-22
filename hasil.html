@@ -2,240 +2,207 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Lampiran SK Pembagian Tugas Guru</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Guru | SMAN 2 Sendawar</title>
 
 <style>
 body{
   margin:0;
-  font-family:"Times New Roman", serif;
-  background:#e5e7eb;
+  min-height:100vh;
+  background:linear-gradient(135deg,#1e3a8a,#2563eb);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Segoe UI, sans-serif;
 }
-
-.page{
-  width:210mm;
-  min-height:297mm;
+.card{
   background:#fff;
-  margin:20px auto;
-  padding:20mm;
-}
-
-/* KOP */
-.kop img{
   width:100%;
-  margin-bottom:14px;
-}
-
-/* JUDUL */
-.judul{
+  max-width:420px;
+  padding:28px;
+  border-radius:18px;
   text-align:center;
-  margin-bottom:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
-.judul h3{
-  margin:6px 0;
-  text-decoration:underline;
+.logo{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:16px;
 }
-.judul .nomor{
-  margin-bottom:20px;
-  font-size:12pt;
-}
-.judul .tentang{
-  font-size:12pt;
-}
-
-/* IDENTITAS */
-.identitas{
-  margin-bottom:14px;
-}
-.identitas td{
-  padding:3px 0;
-  font-size:12pt;
-}
-
-/* SUB JUDUL */
-.subjudul{
-  margin:14px 0 6px;
-  font-weight:bold;
-  font-size:12pt;
-}
-
-/* TABEL */
-table{
+.logo img{ width:68px; }
+h2{ color:#1e3a8a; }
+input{
   width:100%;
-  border-collapse:collapse;
-  font-size:12pt;
-  margin-bottom:8px;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #cbd5e1;
 }
-th, td{
-  border:1px solid #000;
-  padding:6px;
+button{
+  margin-top:18px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:#2563eb;
+  color:#fff;
+  cursor:pointer;
 }
-th{
-  text-align:center;
-}
-
-/* SUBTOTAL */
-.subtotal{
-  margin-bottom:12px;
-  font-weight:bold;
-  font-size:12pt;
-}
-
-/* TTD */
-.ttd{
-  margin-top:40px;
-}
-.ttd .kanan{
-  width:40%;
-  float:right;
-  text-align:center;
-}
-.clear{clear:both}
-
-@media print{
-  body{background:#fff}
-  .page{margin:0}
-}
+button:hover{ background:#1e40af; }
 </style>
 </head>
 
 <body>
 
-<div class="page">
-
-  <!-- KOP -->
-  <div class="kop">
-    <img src="KOP SEKOLAH.png" alt="KOP SEKOLAH">
+<div class="card">
+  <div class="logo">
+    <img src="logo-provinsi.png">
+    <img src="logo-sman2.png">
   </div>
 
-  <!-- JUDUL -->
-  <div class="judul">
-    <h3>LAMPIRAN SURAT KEPUTUSAN</h3>
+  <h2>Login Guru</h2>
+  <p>Masukkan <b>NIP / Username</b></p>
 
-    <div class="nomor">
-      Nomor : 400.3.8/ __________ /SMAN 2 SDWR/2025
-    </div>
+  <input id="usernameInput" type="text">
 
-    <div class="tentang">
-      Tentang Pembagian Tugas Guru<br>
-      Semester Genap Tahun Pelajaran 2025 / 2026
-    </div>
-  </div>
-
-  <!-- IDENTITAS -->
-  <table class="identitas">
-    <tr>
-      <td width="30%">Nama Guru</td>
-      <td width="5%">:</td>
-      <td id="namaGuru"></td>
-    </tr>
-    <tr>
-      <td>NIP</td>
-      <td>:</td>
-      <td id="nipGuru"></td>
-    </tr>
-  </table>
-
-  <!-- TUGAS MENGAJAR -->
-  <div class="subjudul">A. Tugas Mengajar</div>
-  <table>
-    <thead>
-      <tr>
-        <th width="5%">No</th>
-        <th width="45%">Mata Pelajaran</th>
-        <th width="35%">Kelas</th>
-        <th width="15%">JP</th>
-      </tr>
-    </thead>
-    <tbody id="tugasMengajar"></tbody>
-  </table>
-  <div class="subtotal" id="totalMengajar"></div>
-
-  <!-- TUGAS TAMBAHAN -->
-  <div class="subjudul">B. Tugas Tambahan</div>
-  <table>
-    <thead>
-      <tr>
-        <th width="5%">No</th>
-        <th width="75%">Uraian Tugas Tambahan</th>
-        <th width="20%">Bobot JP</th>
-      </tr>
-    </thead>
-    <tbody id="tugasTambahan"></tbody>
-  </table>
-  <div class="subtotal" id="totalTambahan"></div>
-
-  <!-- TTD -->
-  <div class="ttd">
-    <div class="kanan">
-      <p>Sendawar, 05 Januari 2026</p>
-      <p>Kepala SMA Negeri 2 Sendawar</p>
-      <br><br><br>
-      <p><b>Fardinandus Erikson, S.Fil</b><br>
-      NIP. 19691010 200801 1 026</p>
-    </div>
-    <div class="clear"></div>
-  </div>
-
+  <button onclick="login()">Lihat Rincian Tugas</button>
 </div>
 
-<!-- DATABASE -->
+<!-- 🔴 WAJIB ADA & BENAR -->
 <script src="data/username.js"></script>
-<script src="data/pembagian-tugas.js"></script>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const username = params.get("username");
+function login(){
+  const input = document.getElementById("usernameInput").value.trim();
 
-if(!username){
-  alert("Data guru tidak ditemukan");
-  window.location.href = "login.html";
+  if(!input){
+    alert("Silakan masukkan NIP / Username");
+    return;
+  }
+
+  if(typeof dataUsername === "undefined"){
+    alert("Database username tidak terbaca");
+    return;
+  }
+
+  const guru = dataUsername.find(
+    g => g.username === input || g.nama.toLowerCase() === input.toLowerCase()
+  );
+
+  if(!guru){
+    alert("Data guru tidak ditemukan");
+    return;
+  }
+
+  localStorage.setItem("usernameAktif", guru.username);
+  localStorage.setItem("namaGuru", guru.nama);
+
+  window.location.href = "hasil.html";
 }
+</script>
 
-// DATA GURU
-const guru = masterGuru.find(g => g.username === username);
-document.getElementById("namaGuru").innerText = guru ? guru.nama : "-";
-document.getElementById("nipGuru").innerText = guru ? guru.nip : "-";
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Guru | SMAN 2 Sendawar</title>
 
-// DATA TUGAS
-const tugas = pembagianTugas.filter(t => t.username === username);
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg,#1e3a8a,#2563eb);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Segoe UI, sans-serif;
+}
+.card{
+  background:#fff;
+  width:100%;
+  max-width:420px;
+  padding:28px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+.logo{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:16px;
+}
+.logo img{ width:68px; }
+h2{ color:#1e3a8a; }
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #cbd5e1;
+}
+button{
+  margin-top:18px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:#2563eb;
+  color:#fff;
+  cursor:pointer;
+}
+button:hover{ background:#1e40af; }
+</style>
+</head>
 
-let noA = 1, noB = 1;
-let jpA = 0, jpB = 0;
+<body>
 
-// TUGAS MENGAJAR
-tugas.forEach(t => {
-  if(t.jenis === "mengajar"){
-    jpA += t.jp;
-    document.getElementById("tugasMengajar").innerHTML += `
-      <tr>
-        <td align="center">${noA++}</td>
-        <td>${t.uraian}</td>
-        <td>${t.kelas}</td>
-        <td align="center">${t.jp}</td>
-      </tr>
-    `;
+<div class="card">
+  <div class="logo">
+    <img src="logo-provinsi.png">
+    <img src="logo-sman2.png">
+  </div>
+
+  <h2>Login Guru</h2>
+  <p>Masukkan <b>NIP / Username</b></p>
+
+  <input id="usernameInput" type="text">
+
+  <button onclick="login()">Lihat Rincian Tugas</button>
+</div>
+
+<!-- 🔴 WAJIB ADA & BENAR -->
+<script src="data/username.js"></script>
+
+<script>
+function login(){
+  const input = document.getElementById("usernameInput").value.trim();
+
+  if(!input){
+    alert("Silakan masukkan NIP / Username");
+    return;
   }
-});
 
-// TUGAS TAMBAHAN (TANPA KELAS)
-tugas.forEach(t => {
-  if(t.jenis === "tambahan"){
-    jpB += t.jp;
-    document.getElementById("tugasTambahan").innerHTML += `
-      <tr>
-        <td align="center">${noB++}</td>
-        <td>${t.uraian}</td>
-        <td align="center">${t.jp}</td>
-      </tr>
-    `;
+  if(typeof dataUsername === "undefined"){
+    alert("Database username tidak terbaca");
+    return;
   }
-});
 
-document.getElementById("totalMengajar").innerText =
-  "Jumlah JP Tugas Mengajar : " + jpA + " JP";
+  const guru = dataUsername.find(
+    g => g.username === input || g.nama.toLowerCase() === input.toLowerCase()
+  );
 
-document.getElementById("totalTambahan").innerText =
-  "Jumlah JP Tugas Tambahan : " + jpB + " JP";
+  if(!guru){
+    alert("Data guru tidak ditemukan");
+    return;
+  }
+
+  localStorage.setItem("usernameAktif", guru.username);
+  localStorage.setItem("namaGuru", guru.nama);
+
+  window.location.href = "hasil.html";
+}
 </script>
 
 </body>
