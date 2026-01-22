@@ -2,138 +2,178 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Rincian Tugas Guru</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lampiran SK Pembagian Tugas Guru</title>
 
 <style>
 body{
   margin:0;
-  font-family:Segoe UI, Arial, sans-serif;
-  background:#f1f5f9;
+  font-family:"Times New Roman", serif;
+  background:#e5e7eb;
 }
-.header{
-  background:linear-gradient(135deg,#1e3c72,#2a7de1);
-  color:#fff;
-  padding:32px 16px;
-  text-align:center;
-}
-.header h1{
-  margin:0;
-  font-size:26px;
-}
-.header p{
-  margin-top:8px;
-  font-size:15px;
-  opacity:.9;
-}
-.container{
-  max-width:900px;
-  margin:-40px auto 40px;
+
+.page{
+  width:210mm;
+  min-height:297mm;
   background:#fff;
-  border-radius:18px;
-  padding:24px;
-  box-shadow:0 15px 40px rgba(0,0,0,.15);
+  margin:20px auto;
+  padding:20mm;
 }
-.section-title{
-  font-size:20px;
-  font-weight:600;
-  color:#1e3c72;
-  margin-bottom:16px;
+
+/* KOP */
+.kop img{
+  width:100%;
+  margin-bottom:14px;
 }
+
+/* JUDUL */
+.judul{
+  text-align:center;
+  margin-bottom:18px;
+}
+.judul h3{
+  margin:6px 0;
+  text-decoration:underline;
+}
+.judul .nomor{
+  margin-bottom:20px;
+  font-size:12pt;
+}
+.judul .tentang{
+  font-size:12pt;
+}
+
+/* IDENTITAS */
+.identitas{
+  margin-bottom:14px;
+}
+.identitas td{
+  padding:3px 0;
+  font-size:12pt;
+}
+
+/* SUB JUDUL */
+.subjudul{
+  margin:14px 0 6px;
+  font-weight:bold;
+  font-size:12pt;
+}
+
+/* TABEL */
 table{
   width:100%;
   border-collapse:collapse;
-  margin-bottom:20px;
+  font-size:12pt;
+  margin-bottom:8px;
 }
-th,td{
-  padding:12px;
-  border-bottom:1px solid #e5e7eb;
-  text-align:left;
+th, td{
+  border:1px solid #000;
+  padding:6px;
 }
 th{
-  background:#f8fafc;
-  color:#1e293b;
+  text-align:center;
 }
-.total{
+
+/* SUBTOTAL */
+.subtotal{
+  margin-bottom:12px;
   font-weight:bold;
-  background:#f0fdf4;
+  font-size:12pt;
 }
-.actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
+
+/* TTD */
+.ttd{
+  margin-top:40px;
 }
-button{
-  padding:12px 20px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  font-size:15px;
+.ttd .kanan{
+  width:40%;
+  float:right;
+  text-align:center;
 }
-.back{ background:#64748b; color:#fff; }
-.print{ background:#22c55e; color:#fff; }
-.print.wali{ background:#0ea5e9; }
-.print.projek{ background:#6366f1; }
-.print.ekskul{ background:#16a34a; }
-.print.piket{ background:#f97316; }
+.clear{clear:both}
+
+@media print{
+  body{background:#fff}
+  .page{margin:0}
+}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <h1 id="namaGuru">Nama Guru</h1>
-  <p>Rincian Tugas Semester Genap Tahun Pelajaran 2025 / 2026</p>
-</div>
+<div class="page">
 
-<div class="container">
+  <!-- KOP -->
+  <div class="kop">
+    <img src="KOP SEKOLAH.png" alt="KOP SEKOLAH">
+  </div>
 
-  <div class="section-title">Tugas Mengajar & Tugas Tambahan</div>
+  <!-- JUDUL -->
+  <div class="judul">
+    <h3>LAMPIRAN SURAT KEPUTUSAN</h3>
 
+    <div class="nomor">
+      Nomor : 400.3.8/ __________ /SMAN 2 SDWR/2025
+    </div>
+
+    <div class="tentang">
+      Tentang Pembagian Tugas Guru<br>
+      Semester Genap Tahun Pelajaran 2025 / 2026
+    </div>
+  </div>
+
+  <!-- IDENTITAS -->
+  <table class="identitas">
+    <tr>
+      <td width="30%">Nama Guru</td>
+      <td width="5%">:</td>
+      <td id="namaGuru"></td>
+    </tr>
+    <tr>
+      <td>NIP</td>
+      <td>:</td>
+      <td id="nipGuru"></td>
+    </tr>
+  </table>
+
+  <!-- TUGAS MENGAJAR -->
+  <div class="subjudul">A. Tugas Mengajar</div>
   <table>
     <thead>
       <tr>
-        <th>No</th>
-        <th>Jenis</th>
-        <th>Uraian Tugas</th>
-        <th>Kelas</th>
-        <th>JP</th>
+        <th width="5%">No</th>
+        <th width="45%">Mata Pelajaran</th>
+        <th width="35%">Kelas</th>
+        <th width="15%">JP</th>
       </tr>
     </thead>
-    <tbody id="tugasBody"></tbody>
-    <tfoot>
-      <tr class="total">
-        <td colspan="4">Total Jam Pelajaran</td>
-        <td id="totalJP">0</td>
-      </tr>
-    </tfoot>
+    <tbody id="tugasMengajar"></tbody>
   </table>
+  <div class="subtotal" id="totalMengajar"></div>
 
-  <div class="actions">
-    <button class="back" onclick="window.location.href='login.html'">
-      Kembali
-    </button>
+  <!-- TUGAS TAMBAHAN -->
+  <div class="subjudul">B. Tugas Tambahan</div>
+  <table>
+    <thead>
+      <tr>
+        <th width="5%">No</th>
+        <th width="75%">Uraian Tugas Tambahan</th>
+        <th width="20%">Bobot JP</th>
+      </tr>
+    </thead>
+    <tbody id="tugasTambahan"></tbody>
+  </table>
+  <div class="subtotal" id="totalTambahan"></div>
 
-    <button class="print" onclick="cetakSK()">
-      Cetak Lampiran SK Utama
-    </button>
-
-    <button class="print wali" id="btnWaliKelas" onclick="cetakWaliKelas()">
-      Cetak SK Wali Kelas
-    </button>
-
-    <button class="print projek" id="btnKoorProjek" onclick="cetakKoorProjek()">
-      Cetak SK Koordinator Projek
-    </button>
-
-    <button class="print ekskul" id="btnEkskul" onclick="cetakEkskul()">
-      Cetak SK Ekstrakurikuler
-    </button>
-
-    <!-- 🔹 TAMBAHAN SAJA: GURU PIKET -->
-    <button class="print piket" id="btnPiket" onclick="cetakPiket()">
-      Cetak SK Guru Piket
-    </button>
+  <!-- TTD -->
+  <div class="ttd">
+    <div class="kanan">
+      <p>Sendawar, 05 Januari 2026</p>
+      <p>Kepala SMA Negeri 2 Sendawar</p>
+      <br><br><br>
+      <p><b>Fardinandus Erikson, S.Fil</b><br>
+      NIP. 19691010 200801 1 026</p>
+    </div>
+    <div class="clear"></div>
   </div>
 
 </div>
@@ -141,100 +181,61 @@ button{
 <!-- DATABASE -->
 <script src="data/username.js"></script>
 <script src="data/pembagian-tugas.js"></script>
-<script src="data/ekstrakurikuler.js"></script>
-<script src="data/guru-piket.js"></script>
 
 <script>
-// ================= PARAMETER =================
 const params = new URLSearchParams(window.location.search);
 const username = params.get("username");
 
 if(!username){
-  alert("Username tidak ditemukan");
+  alert("Data guru tidak ditemukan");
   window.location.href = "login.html";
 }
 
-// ================= DATA GURU =================
+// DATA GURU
 const guru = masterGuru.find(g => g.username === username);
-document.getElementById("namaGuru").innerText = guru ? guru.nama : "Guru";
+document.getElementById("namaGuru").innerText = guru ? guru.nama : "-";
+document.getElementById("nipGuru").innerText = guru ? guru.nip : "-";
 
-// ================= DATA TUGAS =================
-const dataTugas = pembagianTugas.filter(t => t.username === username);
+// DATA TUGAS
+const tugas = pembagianTugas.filter(t => t.username === username);
 
-const tbody = document.getElementById("tugasBody");
-let totalJP = 0;
+let noA = 1, noB = 1;
+let jpA = 0, jpB = 0;
 
-if(dataTugas.length === 0){
-  tbody.innerHTML = `
-    <tr>
-      <td colspan="5" style="text-align:center;color:#999">
-        Data tugas belum tersedia
-      </td>
-    </tr>
-  `;
-}else{
-  dataTugas.forEach((t,i)=>{
-    totalJP += Number(t.jp);
-    tbody.innerHTML += `
+// TUGAS MENGAJAR
+tugas.forEach(t => {
+  if(t.jenis === "mengajar"){
+    jpA += t.jp;
+    document.getElementById("tugasMengajar").innerHTML += `
       <tr>
-        <td>${i+1}</td>
-        <td>${t.jenis}</td>
+        <td align="center">${noA++}</td>
         <td>${t.uraian}</td>
-        <td>${t.kelas || '-'}</td>
-        <td>${t.jp}</td>
+        <td>${t.kelas}</td>
+        <td align="center">${t.jp}</td>
       </tr>
     `;
-  });
-}
+  }
+});
 
-document.getElementById("totalJP").innerText = totalJP;
+// TUGAS TAMBAHAN (TANPA KELAS)
+tugas.forEach(t => {
+  if(t.jenis === "tambahan"){
+    jpB += t.jp;
+    document.getElementById("tugasTambahan").innerHTML += `
+      <tr>
+        <td align="center">${noB++}</td>
+        <td>${t.uraian}</td>
+        <td align="center">${t.jp}</td>
+      </tr>
+    `;
+  }
+});
 
-// ================= DETEKSI KHUSUS =================
+document.getElementById("totalMengajar").innerText =
+  "Jumlah JP Tugas Mengajar : " + jpA + " JP";
 
-// WALI KELAS
-const punyaWaliKelas = dataTugas.some(t =>
-  t.jenis === "tambahan" && t.uraian.startsWith("Wali Kelas")
-);
-
-// KOORDINATOR PROJEK
-const regexProjek = /koor\.?\s*projek|koordinator\s*projek/i;
-const punyaKoorProjek = dataTugas.some(t =>
-  t.jenis === "tambahan" && regexProjek.test(t.uraian)
-);
-
-// EKSTRAKURIKULER
-const punyaEkskul = dataEkskul.some(e =>
-  e.koordinator === guru.nama ||
-  e.anggota.includes(guru.nama)
-);
-
-// GURU PIKET (TAMBAHAN SAJA)
-const punyaPiket = dataGuruPiket.some(h =>
-  h.jadwal.some(j => j.guru.includes(guru.nama))
-);
-
-// ================= KONTROL TOMBOL =================
-if(!punyaWaliKelas) document.getElementById("btnWaliKelas").style.display="none";
-if(!punyaKoorProjek) document.getElementById("btnKoorProjek").style.display="none";
-if(!punyaEkskul) document.getElementById("btnEkskul").style.display="none";
-if(!punyaPiket) document.getElementById("btnPiket").style.display="none";
-
-// ================= FUNGSI CETAK =================
-function cetakSK(){
-  window.open("cetak.html?username="+encodeURIComponent(username),"_blank");
-}
-function cetakWaliKelas(){
-  window.open("Wali-kelas.html?username="+encodeURIComponent(username),"_blank");
-}
-function cetakKoorProjek(){
-  window.open("Koor-projek.html?username="+encodeURIComponent(username),"_blank");
-}
-function cetakEkskul(){
-  window.open("cetak-lampiran-ekskul.html?username="+encodeURIComponent(username),"_blank");
-}
-function cetakPiket(){
-  window.open("cetak-piket.html","_blank");
-}
+document.getElementById("totalTambahan").innerText =
+  "Jumlah JP Tugas Tambahan : " + jpB + " JP";
 </script>
 
 </body>
