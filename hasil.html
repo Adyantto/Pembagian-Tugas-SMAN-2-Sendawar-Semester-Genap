@@ -70,8 +70,11 @@ button{
   cursor:pointer;
   font-size:15px;
 }
+
+/* WARNA TOMBOL */
 .back{ background:#64748b; color:#fff; }
 .print{ background:#22c55e; color:#fff; }
+.print.depan{ background:#9333ea; }
 .print.wali{ background:#0ea5e9; }
 .print.projek{ background:#6366f1; }
 .print.ekskul{ background:#16a34a; }
@@ -110,14 +113,22 @@ button{
   </table>
 
   <div class="actions">
+
     <button class="back" onclick="window.location.href='login.html'">
       Kembali
     </button>
 
+    <!-- ✅ HALAMAN DEPAN SK -->
+    <button class="print depan" onclick="cetakHalamanDepan()">
+      Cetak Halaman Depan SK
+    </button>
+
+    <!-- SK UTAMA -->
     <button class="print" onclick="cetakSK()">
       Cetak Lampiran SK Utama
     </button>
 
+    <!-- OPSIONAL -->
     <button class="print wali" id="btnWaliKelas" onclick="cetakWaliKelas()">
       Cetak SK Wali Kelas
     </button>
@@ -130,10 +141,10 @@ button{
       Cetak SK Ekstrakurikuler
     </button>
 
-    <!-- 🔹 TAMBAHAN SAJA: GURU PIKET -->
     <button class="print piket" id="btnPiket" onclick="cetakPiket()">
       Cetak SK Guru Piket
     </button>
+
   </div>
 
 </div>
@@ -145,7 +156,6 @@ button{
 <script src="data/guru-piket.js"></script>
 
 <script>
-// ================= PARAMETER =================
 const params = new URLSearchParams(window.location.search);
 const username = params.get("username");
 
@@ -154,14 +164,12 @@ if(!username){
   window.location.href = "login.html";
 }
 
-// ================= DATA GURU =================
 const guru = masterGuru.find(g => g.username === username);
 document.getElementById("namaGuru").innerText = guru ? guru.nama : "Guru";
 
-// ================= DATA TUGAS =================
 const dataTugas = pembagianTugas.filter(t => t.username === username);
-
 const tbody = document.getElementById("tugasBody");
+
 let totalJP = 0;
 
 if(dataTugas.length === 0){
@@ -170,8 +178,7 @@ if(dataTugas.length === 0){
       <td colspan="5" style="text-align:center;color:#999">
         Data tugas belum tersedia
       </td>
-    </tr>
-  `;
+    </tr>`;
 }else{
   dataTugas.forEach((t,i)=>{
     totalJP += Number(t.jp);
@@ -182,44 +189,39 @@ if(dataTugas.length === 0){
         <td>${t.uraian}</td>
         <td>${t.kelas || '-'}</td>
         <td>${t.jp}</td>
-      </tr>
-    `;
+      </tr>`;
   });
 }
 
 document.getElementById("totalJP").innerText = totalJP;
 
-// ================= DETEKSI KHUSUS =================
-
-// WALI KELAS
+/* ===== DETEKSI ===== */
 const punyaWaliKelas = dataTugas.some(t =>
   t.jenis === "tambahan" && t.uraian.startsWith("Wali Kelas")
 );
 
-// KOORDINATOR PROJEK
 const regexProjek = /koor\.?\s*projek|koordinator\s*projek/i;
 const punyaKoorProjek = dataTugas.some(t =>
   t.jenis === "tambahan" && regexProjek.test(t.uraian)
 );
 
-// EKSTRAKURIKULER
 const punyaEkskul = dataEkskul.some(e =>
-  e.koordinator === guru.nama ||
-  e.anggota.includes(guru.nama)
+  e.koordinator === guru.nama || e.anggota.includes(guru.nama)
 );
 
-// GURU PIKET (TAMBAHAN SAJA)
 const punyaPiket = dataGuruPiket.some(h =>
   h.jadwal.some(j => j.guru.includes(guru.nama))
 );
 
-// ================= KONTROL TOMBOL =================
 if(!punyaWaliKelas) document.getElementById("btnWaliKelas").style.display="none";
 if(!punyaKoorProjek) document.getElementById("btnKoorProjek").style.display="none";
 if(!punyaEkskul) document.getElementById("btnEkskul").style.display="none";
 if(!punyaPiket) document.getElementById("btnPiket").style.display="none";
 
-// ================= FUNGSI CETAK =================
+/* ===== CETAK ===== */
+function cetakHalamanDepan(){
+  window.open("halaman-depan.html","_blank");
+}
 function cetakSK(){
   window.open("cetak.html?username="+encodeURIComponent(username),"_blank");
 }
