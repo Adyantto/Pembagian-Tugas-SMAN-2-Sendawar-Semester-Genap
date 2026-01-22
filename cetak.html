@@ -1,157 +1,45 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Lampiran SK Guru Piket</title>
+<script src="data/username.js"></script>
+<script src="data/pembagian-tugas.js"></script>
 
-<style>
-/* ================= GLOBAL ================= */
-@page{
-  size:A4;
-  margin:20mm;
-}
-
-body{
-  margin:0;
-  font-family:"Times New Roman", serif;
-}
-
-/* ================= HALAMAN ================= */
-.page{
-  min-height:257mm; /* 297 - margin atas bawah */
-  display:flex;
-  flex-direction:column;
-}
-
-/* ================= KOP ================= */
-.kop img{
-  width:100%;
-  margin-bottom:12px;
-}
-
-/* ================= JUDUL ================= */
-.judul{
-  text-align:center;
-  margin-bottom:12px;
-}
-.judul h3{
-  margin:4px 0;
-  text-decoration:underline;
-  font-size:14pt;
-}
-.judul .nomor{
-  font-size:12pt;
-}
-.judul .tentang{
-  font-size:12pt;
-  line-height:1.35;
-}
-
-/* ================= TABEL ================= */
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:11.5pt;
-}
-th, td{
-  border:1px solid #000;
-  padding:5px;
-  vertical-align:top;
-}
-th{
-  text-align:center;
-}
-tr{
-  page-break-inside:avoid;
-}
-
-/* ================= FOOTER / TTD ================= */
-.footer{
-  margin-top:auto; /* INI KUNCINYA */
-}
-.ttd{
-  width:40%;
-  margin-left:auto;
-  text-align:center;
-  font-size:12pt;
-}
-
-/* ================= CETAK ================= */
-@media print{
-  body{margin:0}
-}
-</style>
-</head>
-
-<body>
-
-<!-- ================= HALAMAN 1 ================= -->
-<div class="page">
-
-  <div class="kop">
-    <img src="KOP SEKOLAH.png" alt="KOP SEKOLAH">
-  </div>
-
-  <div class="judul">
-    <h3>LAMPIRAN SURAT KEPUTUSAN</h3>
-    <div class="nomor">
-      Nomor : 400.3.8.1/714/SMAN 2 SDWR/2025
-    </div>
-    <div class="tentang">
-      TENTANG<br>
-      TUGAS TAMBAHAN SEBAGAI GURU PIKET<br>
-      DI SMA NEGERI 2 SENDAWAR<br>
-      SEMESTER GANJIL TAHUN PELAJARAN 2025 / 2026
-    </div>
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th width="15%">Hari</th>
-        <th width="20%">Waktu</th>
-        <th width="65%">Nama Guru Piket</th>
-      </tr>
-    </thead>
-    <tbody id="tabelPiket"></tbody>
-  </table>
-
-</div>
-
-<!-- ================= HALAMAN 2 ================= -->
-<div class="page">
-
-  <div class="footer">
-    <div class="ttd">
-      <p>Ditetapkan di : Sendawar</p>
-      <p>Pada Tanggal : 14 Juli 2025</p>
-      <br>
-      <p>Kepala SMA Negeri 2 Sendawar</p>
-      <br><br><br>
-      <p><b>Fardinandus Erikson, S.Fil</b><br>
-      Penata Tk. I<br>
-      NIP. 19691010 200801 1 026</p>
-    </div>
-  </div>
-
-</div>
-
-<script src="data/guru-piket.js"></script>
 <script>
-const tbody = document.getElementById("tabelPiket");
+const params = new URLSearchParams(window.location.search);
+const username = params.get("username");
 
-dataGuruPiket.forEach(hari => {
-  hari.jadwal.forEach((slot, index) => {
-    tbody.insertAdjacentHTML("beforeend", `
+const guru = masterGuru.find(g => g.username === username);
+const tugas = pembagianTugas.filter(t => t.username === username);
+
+// tampilkan identitas
+document.getElementById("namaGuru").innerText = guru.nama;
+document.getElementById("nipGuru").innerText  = guru.nip;
+
+let noA=1, noB=1, jpA=0, jpB=0;
+
+tugas.forEach(t=>{
+  if(t.jenis==="mengajar"){
+    jpA += t.jp;
+    document.getElementById("tugasMengajar").innerHTML += `
       <tr>
-        <td>${index === 0 ? "<b>"+hari.hari+"</b>" : ""}</td>
-        <td align="center">${slot.waktu}</td>
-        <td>${slot.guru.join("<br>")}</td>
-      </tr>
-    `);
-  });
-});
-</script>
+        <td>${noA++}</td>
+        <td>${t.uraian}</td>
+        <td>${t.kelas}</td>
+        <td>${t.jp}</td>
+      </tr>`;
+  }
 
-</body>
-</html>
+  if(t.jenis==="tambahan"){
+    jpB += t.jp;
+    document.getElementById("tugasTambahan").innerHTML += `
+      <tr>
+        <td>${noB++}</td>
+        <td>${t.uraian}</td>
+        <td>${t.jp}</td>
+      </tr>`;
+  }
+});
+
+document.getElementById("totalMengajar").innerText =
+  "Jumlah JP Mengajar : " + jpA + " JP";
+
+document.getElementById("totalTambahan").innerText =
+  "Jumlah JP Tugas Tambahan : " + jpB + " JP";
+</script>
