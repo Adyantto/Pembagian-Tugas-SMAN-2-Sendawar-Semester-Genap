@@ -1,23 +1,112 @@
-<!-- ================= HALAMAN 1 ================= -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>SK Pembagian Tugas Guru</title>
 
+<style>
+@page{
+  size:A4;
+  margin:20mm;
+}
+
+body{
+  font-family:"Times New Roman", serif;
+  font-size:12pt;
+  margin:0;
+  color:#000;
+}
+
+/* ====== KOP ====== */
+.kop img{
+  width:100%;
+  margin-bottom:10px;
+}
+
+/* ====== JUDUL ====== */
+.judul{
+  text-align:center;
+  margin:12px 0;
+}
+
+.judul h3{
+  margin:4px 0;
+  font-size:13pt;
+  font-weight:bold;
+  text-decoration:underline;
+}
+
+.judul .nomor{
+  margin:6px 0;
+  font-weight:bold;
+}
+
+/* ====== ISI ====== */
+.isi{
+  text-align:justify;
+  line-height:1.45;
+}
+
+.isi table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:6px;
+}
+
+.isi td{
+  vertical-align:top;
+  padding:2px 4px;
+}
+
+/* ====== TTD ====== */
+.ttd{
+  width:40%;
+  margin-left:auto;
+  margin-top:24px;
+  text-align:center;
+}
+
+.ttd p{
+  margin:2px 0;
+  line-height:1.4;
+}
+
+.ttd .jabatan{
+  margin-top:18px;
+}
+
+.ttd .nama{
+  margin-top:60px;
+}
+
+/* ====== CETAK ====== */
+@media print{
+  body{margin:0}
+}
+</style>
+</head>
+
+<body>
+
+<!-- KOP -->
 <div class="kop">
   <img src="KOP SEKOLAH.png">
 </div>
 
+<!-- JUDUL -->
 <div class="judul">
   <h3>SURAT KEPUTUSAN KEPALA SMA NEGERI 2 SENDAWAR</h3>
   <div class="nomor">
     NOMOR : 400.3.8/708/SMAN 2 SDWR/2026
   </div>
-
-  <div class="tentang">
-    TENTANG<br>
-    STRUKTUR ORGANISASI DAN PEMBAGIAN TUGAS GURU<br>
-    DALAM PROSES BELAJAR MENGAJAR SERTA BIMBINGAN<br>
-    PADA SEMESTER GENAP TAHUN PELAJARAN 2025 / 2026
-  </div>
+ <div class="tentang">
+  TENTANG<br>
+  STRUKTUR ORGANISASI DAN PEMBAGIAN TUGAS GURU<br>
+  DALAM PROSES BELAJAR MENGAJAR SERTA BIMBINGAN<br>
+  PADA SEMESTER GENAP TAHUN PELAJARAN 2025 / 2026
 </div>
 
+<!-- ISI -->
 <div class="isi">
 
 <table>
@@ -36,8 +125,10 @@
   <td>
     1. Undang-Undang Nomor 20 Tahun 2003 tentang Sistem Pendidikan Nasional;<br>
     2. Peraturan Pemerintah Nomor 19 Tahun 2005 tentang Standar Nasional Pendidikan;<br>
-    3. Permendiknas Nomor 13 Tahun 2007;<br>
-    4. Peraturan Pemerintah Nomor 17 Tahun 2010.
+    3. Peraturan Menteri Pendidikan Nasional Nomor 22 Tahun 2006;<br>
+    4. Permendiknas Nomor 13 Tahun 2007;<br>
+    5. Peraturan Pemerintah Nomor 17 Tahun 2010;<br>
+    6. Peraturan Menteri Pendidikan Nasional Nomor 28 Tahun 2010.
   </td>
 </tr>
 </table>
@@ -67,18 +158,9 @@
   </td>
 </tr>
 
-</table>
-</div>
-
-<!-- ================= HALAMAN 2 ================= -->
-<div class="page-break"></div>
-
-<div class="isi">
-
-<table>
 <tr>
-  <td width="15%"><b>Ketiga</b></td>
-  <td width="2%">:</td>
+  <td><b>Ketiga</b></td>
+  <td>:</td>
   <td>
     Segala biaya yang timbul akibat pelaksanaan keputusan ini dibebankan pada anggaran sekolah.
   </td>
@@ -93,12 +175,9 @@
 </tr>
 </table>
 
-<p style="margin-top:18px;">
-  Demikian surat keputusan ini ditetapkan untuk dilaksanakan dengan penuh tanggung jawab sebagaimana mestinya.
-</p>
-
 </div>
 
+<!-- TTD -->
 <div class="ttd">
   <p>Ditetapkan di : Sendawar</p>
   <p>Pada tanggal : 05 Januari 2026</p>
@@ -112,3 +191,6 @@
     NIP. 19691010 200801 1 026
   </p>
 </div>
+
+</body>
+</html>
